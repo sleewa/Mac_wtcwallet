@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'PswForm.ui'
 #
-# Created by: PyQt5 UI code generator 5.6
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -25,9 +25,11 @@ class Ui_PswForm(object):
         self.label_15.setObjectName("label_15")
         self.closeenterpsw = QtWidgets.QPushButton(PswForm)
         self.closeenterpsw.setGeometry(QtCore.QRect(430, 0, 41, 31))
+        self.closeenterpsw.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.closeenterpsw.setStyleSheet("border:0px;")
         self.closeenterpsw.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.closeenterpsw.setIcon(icon)
         self.closeenterpsw.setFlat(True)
         self.closeenterpsw.setObjectName("closeenterpsw")
@@ -38,6 +40,7 @@ class Ui_PswForm(object):
         font.setPointSize(16)
         self.pushButton_9.setFont(font)
         self.pushButton_9.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_9.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_9.setStyleSheet("background-color: rgb(170, 0, 255);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius:25px;")
@@ -50,6 +53,7 @@ class Ui_PswForm(object):
         font.setPointSize(16)
         self.pushButton_10.setFont(font)
         self.pushButton_10.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_10.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_10.setStyleSheet("background-color: rgb(255, 255, 255);\n"
 "border-color: rgb(170, 0, 255);\n"
 "border-width:1px;\n"
@@ -69,10 +73,12 @@ class Ui_PswForm(object):
         font.setFamily("Arial")
         self.turn2visible1_2.setFont(font)
         self.turn2visible1_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.turn2visible1_2.setFocusPolicy(QtCore.Qt.NoFocus)
         self.turn2visible1_2.setAutoFillBackground(False)
+        self.turn2visible1_2.setStyleSheet("border:0px;")
         self.turn2visible1_2.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("D:/wtc_py/./pic/02.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("D:/wtc_py/pic/02.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.turn2visible1_2.setIcon(icon1)
         self.turn2visible1_2.setIconSize(QtCore.QSize(40, 40))
         self.turn2visible1_2.setFlat(True)

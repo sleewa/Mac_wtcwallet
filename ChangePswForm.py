@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ChangePswForm.ui'
 #
-# Created by: PyQt5 UI code generator 5.6
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -19,10 +19,12 @@ class Ui_ChangePswForm(object):
         font.setFamily("Arial")
         self.turn2visible1_3.setFont(font)
         self.turn2visible1_3.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.turn2visible1_3.setFocusPolicy(QtCore.Qt.NoFocus)
         self.turn2visible1_3.setAutoFillBackground(False)
+        self.turn2visible1_3.setStyleSheet("border:0px;")
         self.turn2visible1_3.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./pic/02.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("D:/wtc_py/pic/02.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.turn2visible1_3.setIcon(icon)
         self.turn2visible1_3.setIconSize(QtCore.QSize(40, 40))
         self.turn2visible1_3.setFlat(True)
@@ -34,6 +36,7 @@ class Ui_ChangePswForm(object):
         font.setPointSize(16)
         self.pushButton_9.setFont(font)
         self.pushButton_9.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_9.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_9.setStyleSheet("background-color: rgb(170, 0, 255);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius:25px;")
@@ -42,10 +45,12 @@ class Ui_ChangePswForm(object):
         self.pushButton_35 = QtWidgets.QPushButton(ChangePswForm)
         self.pushButton_35.setGeometry(QtCore.QRect(300, 90, 51, 31))
         self.pushButton_35.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_35.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_35.setAutoFillBackground(False)
+        self.pushButton_35.setStyleSheet("border:0px;")
         self.pushButton_35.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("./pic/open2.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("pic/open2.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_35.setIcon(icon1)
         self.pushButton_35.setIconSize(QtCore.QSize(28, 28))
         self.pushButton_35.setFlat(True)
@@ -62,9 +67,11 @@ class Ui_ChangePswForm(object):
         self.label_15.setObjectName("label_15")
         self.closeenterpsw = QtWidgets.QPushButton(ChangePswForm)
         self.closeenterpsw.setGeometry(QtCore.QRect(430, 0, 41, 31))
+        self.closeenterpsw.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.closeenterpsw.setStyleSheet("border:0px;")
         self.closeenterpsw.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("./pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.closeenterpsw.setIcon(icon2)
         self.closeenterpsw.setFlat(True)
         self.closeenterpsw.setObjectName("closeenterpsw")
@@ -131,7 +138,9 @@ class Ui_ChangePswForm(object):
         font.setFamily("Arial")
         self.turn2visible1_2.setFont(font)
         self.turn2visible1_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.turn2visible1_2.setFocusPolicy(QtCore.Qt.NoFocus)
         self.turn2visible1_2.setAutoFillBackground(False)
+        self.turn2visible1_2.setStyleSheet("border:0px;")
         self.turn2visible1_2.setText("")
         self.turn2visible1_2.setIcon(icon)
         self.turn2visible1_2.setIconSize(QtCore.QSize(40, 40))
@@ -167,7 +176,9 @@ class Ui_ChangePswForm(object):
         font.setFamily("Arial")
         self.turn2visible1_4.setFont(font)
         self.turn2visible1_4.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.turn2visible1_4.setFocusPolicy(QtCore.Qt.NoFocus)
         self.turn2visible1_4.setAutoFillBackground(False)
+        self.turn2visible1_4.setStyleSheet("border:0px;")
         self.turn2visible1_4.setText("")
         self.turn2visible1_4.setIcon(icon)
         self.turn2visible1_4.setIconSize(QtCore.QSize(40, 40))

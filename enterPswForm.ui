@@ -34,6 +34,9 @@
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(170, 0, 255);
 color: rgb(255, 255, 255);
@@ -106,10 +109,10 @@ QLineEdit[echoMode=&quot;2&quot;] {
   <widget class="QPushButton" name="turn2visible1_2">
    <property name="geometry">
     <rect>
-     <x>360</x>
+     <x>370</x>
      <y>100</y>
-     <width>41</width>
-     <height>41</height>
+     <width>31</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
@@ -120,8 +123,14 @@ QLineEdit[echoMode=&quot;2&quot;] {
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="autoFillBackground">
     <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:0px;</string>
    </property>
    <property name="text">
     <string/>
@@ -172,6 +181,12 @@ QLineEdit[echoMode=&quot;2&quot;] {
      <width>41</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:0px;</string>
    </property>
    <property name="text">
     <string/>

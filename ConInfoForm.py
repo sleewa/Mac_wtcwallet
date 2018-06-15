@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ConInfoForm.ui'
 #
-# Created by: PyQt5 UI code generator 5.6
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -66,9 +66,10 @@ class Ui_ConInfoForm(object):
         self.label_52.setObjectName("label_52")
         self.closeenterpsw = QtWidgets.QPushButton(ConInfoForm)
         self.closeenterpsw.setGeometry(QtCore.QRect(410, 0, 41, 31))
+        self.closeenterpsw.setStyleSheet("border:0px;")
         self.closeenterpsw.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.closeenterpsw.setIcon(icon)
         self.closeenterpsw.setFlat(True)
         self.closeenterpsw.setObjectName("closeenterpsw")

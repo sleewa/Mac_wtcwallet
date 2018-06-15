@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'PriKeyForm.ui'
 #
-# Created by: PyQt5 UI code generator 5.6
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -40,19 +40,23 @@ class Ui_PriKeyForm(object):
         self.lineEdit_8.setObjectName("lineEdit_8")
         self.closeenterpsw = QtWidgets.QPushButton(PriKeyForm)
         self.closeenterpsw.setGeometry(QtCore.QRect(450, 0, 41, 31))
+        self.closeenterpsw.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.closeenterpsw.setStyleSheet("border:0px;")
         self.closeenterpsw.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.closeenterpsw.setIcon(icon)
         self.closeenterpsw.setFlat(True)
         self.closeenterpsw.setObjectName("closeenterpsw")
         self.pushButton_35 = QtWidgets.QPushButton(PriKeyForm)
         self.pushButton_35.setGeometry(QtCore.QRect(420, 380, 41, 41))
         self.pushButton_35.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_35.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_35.setAutoFillBackground(False)
+        self.pushButton_35.setStyleSheet("border:0px;")
         self.pushButton_35.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("D:/wtc_py/./pic/purplecopy.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("D:/wtc_py/pic/purplecopy.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_35.setIcon(icon1)
         self.pushButton_35.setIconSize(QtCore.QSize(77, 77))
         self.pushButton_35.setAutoDefault(False)

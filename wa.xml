@@ -1,52 +1,10 @@
 <?xml version="1.0" ?>
 <ArrayOfWalletBaseEntity xmlns:xsd="&quot;http://www.w3.org/2001/XMLSchema&quot;">
-            
  <WalletBaseEntity>
-        
-  <Address>0x1db0E552bFB009Ae78059cBa7d50fC13F1B34Ff6</Address>
-        
-  <UUID/>
-        
-  <AccountName>0x1db0E552</AccountName>
-        
-  <FileName>./Data/keystores/1db0E552bFB009Ae.keystore</FileName>
-        
-  <GMN>false</GMN>
-      
- </WalletBaseEntity>
-    
- <WalletBaseEntity>
-        
   <Address>0xFBf36B7c56258dC3e29769C1a686250B8B002dE3</Address>
-        
   <UUID/>
-        
   <AccountName>0xFBf36B7c</AccountName>
-        
   <FileName>./Data/keystores/FBf36B7c56258dC3.keystore</FileName>
-        
-  <GMN>false</GMN>
-      
- </WalletBaseEntity>
-  
- <WalletBaseEntity>
-    
-  <Address>0x3e25d5CBfAdc0cf851aE66C70efBf491E2d90F9f</Address>
-    
-  <UUID/>
-    
-  <AccountName>0x3e25d5CB</AccountName>
-    
-  <FileName>./Data/keystores/3e25d5CBfAdc0cf8.keystore</FileName>
-    
-  <GMN>false</GMN>
-   
- </WalletBaseEntity>
- <WalletBaseEntity>
-  <Address>0x817f5fdf1484B1CAb94609615907B0692269D5aE</Address>
-  <UUID/>
-  <AccountName>0x817f5fdf</AccountName>
-  <FileName>./Data/keystores/817f5fdf1484B1CA.keystore</FileName>
   <GMN>false</GMN>
  </WalletBaseEntity>
 </ArrayOfWalletBaseEntity>

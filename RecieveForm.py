@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'RecieveForm.ui'
 #
-# Created by: PyQt5 UI code generator 5.6
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -55,10 +55,12 @@ class Ui_ReceiveForm(object):
         self.label_15.setStyleSheet("color: rgb(170, 0, 255);")
         self.label_15.setObjectName("label_15")
         self.closeenterpsw = QtWidgets.QPushButton(ReceiveForm)
-        self.closeenterpsw.setGeometry(QtCore.QRect(490, 10, 41, 31))
+        self.closeenterpsw.setGeometry(QtCore.QRect(500, 0, 41, 31))
+        self.closeenterpsw.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.closeenterpsw.setStyleSheet("border:0px;")
         self.closeenterpsw.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.closeenterpsw.setIcon(icon)
         self.closeenterpsw.setFlat(True)
         self.closeenterpsw.setObjectName("closeenterpsw")
@@ -82,10 +84,12 @@ class Ui_ReceiveForm(object):
         self.pushButton_34 = QtWidgets.QPushButton(ReceiveForm)
         self.pushButton_34.setGeometry(QtCore.QRect(450, 440, 41, 41))
         self.pushButton_34.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_34.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_34.setAutoFillBackground(False)
+        self.pushButton_34.setStyleSheet("border:0px;")
         self.pushButton_34.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("./pic/purplecopy.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("pic/purplecopy.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_34.setIcon(icon1)
         self.pushButton_34.setIconSize(QtCore.QSize(77, 77))
         self.pushButton_34.setAutoDefault(False)

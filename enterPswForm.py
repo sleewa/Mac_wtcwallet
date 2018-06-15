@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'enterPswForm.ui'
 #
-# Created by: PyQt5 UI code generator 5.6
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -20,6 +20,7 @@ class Ui_EnterPswForm(object):
         font.setPointSize(16)
         self.pushButton_9.setFont(font)
         self.pushButton_9.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_9.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_9.setStyleSheet("background-color: rgb(170, 0, 255);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius:18px;")
@@ -50,15 +51,17 @@ class Ui_EnterPswForm(object):
         self.line_38.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_38.setObjectName("line_38")
         self.turn2visible1_2 = QtWidgets.QPushButton(EnterPswForm)
-        self.turn2visible1_2.setGeometry(QtCore.QRect(360, 100, 41, 41))
+        self.turn2visible1_2.setGeometry(QtCore.QRect(370, 100, 31, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
         self.turn2visible1_2.setFont(font)
         self.turn2visible1_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.turn2visible1_2.setFocusPolicy(QtCore.Qt.NoFocus)
         self.turn2visible1_2.setAutoFillBackground(False)
+        self.turn2visible1_2.setStyleSheet("border:0px;")
         self.turn2visible1_2.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./pic/02.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("pic/02.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.turn2visible1_2.setIcon(icon)
         self.turn2visible1_2.setIconSize(QtCore.QSize(40, 40))
         self.turn2visible1_2.setFlat(True)
@@ -75,9 +78,11 @@ class Ui_EnterPswForm(object):
         self.label_15.setObjectName("label_15")
         self.closeenterpsw = QtWidgets.QPushButton(EnterPswForm)
         self.closeenterpsw.setGeometry(QtCore.QRect(400, 0, 41, 31))
+        self.closeenterpsw.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.closeenterpsw.setStyleSheet("border:0px;")
         self.closeenterpsw.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("./pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.closeenterpsw.setIcon(icon1)
         self.closeenterpsw.setFlat(True)
         self.closeenterpsw.setObjectName("closeenterpsw")

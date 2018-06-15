@@ -49,6 +49,12 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:0px;</string>
+   </property>
    <property name="text">
     <string/>
    </property>
@@ -77,6 +83,9 @@
    </property>
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(170, 0, 255);
@@ -107,6 +116,9 @@ border-radius:25px;</string>
    </property>
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(255, 255, 255);
@@ -153,8 +165,14 @@ border-radius:25px;</string>
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="autoFillBackground">
     <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:0px;</string>
    </property>
    <property name="text">
     <string/>

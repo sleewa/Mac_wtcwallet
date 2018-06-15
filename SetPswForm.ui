@@ -34,6 +34,9 @@
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(170, 0, 255);
 color: rgb(255, 255, 255);
@@ -110,8 +113,14 @@ QLineEdit[echoMode=&quot;2&quot;] {
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="autoFillBackground">
     <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:0px;</string>
    </property>
    <property name="text">
     <string/>
@@ -244,8 +253,14 @@ QLineEdit[echoMode=&quot;2&quot;] {
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="autoFillBackground">
     <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:0px;</string>
    </property>
    <property name="text">
     <string/>
@@ -301,8 +316,14 @@ QLineEdit[echoMode=&quot;2&quot;] {
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="autoFillBackground">
     <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:0px;</string>
    </property>
    <property name="text">
     <string/>
@@ -329,6 +350,12 @@ QLineEdit[echoMode=&quot;2&quot;] {
      <width>41</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:0px;</string>
    </property>
    <property name="text">
     <string/>

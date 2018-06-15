@@ -110,6 +110,9 @@ color: rgb(170, 0, 255);</string>
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(170, 0, 255);
 color: rgb(255, 255, 255);
@@ -154,6 +157,12 @@ border-radius:25px;</string>
      <width>41</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:0px;</string>
    </property>
    <property name="text">
     <string/>

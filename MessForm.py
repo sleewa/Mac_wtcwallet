@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'MessForm.ui'
 #
-# Created by: PyQt5 UI code generator 5.6
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -27,7 +27,7 @@ class Ui_MessForm(object):
         self.closeenterpsw.setGeometry(QtCore.QRect(580, 0, 41, 31))
         self.closeenterpsw.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.closeenterpsw.setIcon(icon)
         self.closeenterpsw.setFlat(True)
         self.closeenterpsw.setObjectName("closeenterpsw")
@@ -141,6 +141,7 @@ class Ui_MessForm(object):
 "")
         self.lineEdit_7.setFrame(False)
         self.lineEdit_7.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.lineEdit_7.setReadOnly(True)
         self.lineEdit_7.setPlaceholderText("")
         self.lineEdit_7.setObjectName("lineEdit_7")
         self.lineEdit_6 = QtWidgets.QLineEdit(MessForm)
@@ -161,6 +162,7 @@ class Ui_MessForm(object):
 "")
         self.lineEdit_6.setFrame(False)
         self.lineEdit_6.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.lineEdit_6.setReadOnly(True)
         self.lineEdit_6.setObjectName("lineEdit_6")
         self.lineEdit_8 = QtWidgets.QLineEdit(MessForm)
         self.lineEdit_8.setGeometry(QtCore.QRect(150, 230, 431, 31))
@@ -180,6 +182,7 @@ class Ui_MessForm(object):
 "")
         self.lineEdit_8.setFrame(False)
         self.lineEdit_8.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.lineEdit_8.setReadOnly(True)
         self.lineEdit_8.setPlaceholderText("")
         self.lineEdit_8.setObjectName("lineEdit_8")
         self.lineEdit_9 = QtWidgets.QLineEdit(MessForm)
@@ -200,6 +203,7 @@ class Ui_MessForm(object):
 "")
         self.lineEdit_9.setFrame(False)
         self.lineEdit_9.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.lineEdit_9.setReadOnly(True)
         self.lineEdit_9.setPlaceholderText("")
         self.lineEdit_9.setObjectName("lineEdit_9")
         self.lineEdit_10 = QtWidgets.QLineEdit(MessForm)
@@ -220,6 +224,7 @@ class Ui_MessForm(object):
 "")
         self.lineEdit_10.setFrame(False)
         self.lineEdit_10.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.lineEdit_10.setReadOnly(True)
         self.lineEdit_10.setPlaceholderText("")
         self.lineEdit_10.setObjectName("lineEdit_10")
         self.textEdit = QtWidgets.QTextEdit(MessForm)
@@ -249,6 +254,7 @@ class Ui_MessForm(object):
 "")
         self.lineEdit_11.setFrame(False)
         self.lineEdit_11.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.lineEdit_11.setReadOnly(True)
         self.lineEdit_11.setPlaceholderText("")
         self.lineEdit_11.setObjectName("lineEdit_11")
         self.lineEdit_12 = QtWidgets.QLineEdit(MessForm)
@@ -269,6 +275,7 @@ class Ui_MessForm(object):
 "")
         self.lineEdit_12.setFrame(False)
         self.lineEdit_12.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.lineEdit_12.setReadOnly(True)
         self.lineEdit_12.setPlaceholderText("")
         self.lineEdit_12.setObjectName("lineEdit_12")
 

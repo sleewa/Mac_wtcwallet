@@ -264,7 +264,7 @@ border-radius:25px;</string>
     <string notr="true">color: rgb(100, 100, 100);</string>
    </property>
    <property name="text">
-    <string>Gas Price:</string>
+    <string>Gas Used:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_57">
@@ -354,6 +354,9 @@ QLineEdit[echoMode=&quot;2&quot;] {
    <property name="echoMode">
     <enum>QLineEdit::Normal</enum>
    </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
    <property name="placeholderText">
     <string/>
    </property>
@@ -401,6 +404,9 @@ QLineEdit[echoMode=&quot;2&quot;] {
    <property name="echoMode">
     <enum>QLineEdit::Normal</enum>
    </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit_8">
    <property name="geometry">
@@ -444,6 +450,9 @@ QLineEdit[echoMode=&quot;2&quot;] {
    </property>
    <property name="echoMode">
     <enum>QLineEdit::Normal</enum>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
    </property>
    <property name="placeholderText">
     <string/>
@@ -492,6 +501,9 @@ QLineEdit[echoMode=&quot;2&quot;] {
    <property name="echoMode">
     <enum>QLineEdit::Normal</enum>
    </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
    <property name="placeholderText">
     <string/>
    </property>
@@ -538,6 +550,9 @@ QLineEdit[echoMode=&quot;2&quot;] {
    </property>
    <property name="echoMode">
     <enum>QLineEdit::Normal</enum>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
    </property>
    <property name="placeholderText">
     <string/>
@@ -608,6 +623,9 @@ QLineEdit[echoMode=&quot;2&quot;] {
    <property name="echoMode">
     <enum>QLineEdit::Normal</enum>
    </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
    <property name="placeholderText">
     <string/>
    </property>
@@ -654,6 +672,9 @@ QLineEdit[echoMode=&quot;2&quot;] {
    </property>
    <property name="echoMode">
     <enum>QLineEdit::Normal</enum>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
    </property>
    <property name="placeholderText">
     <string/>

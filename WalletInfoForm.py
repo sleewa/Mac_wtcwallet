@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'WalletInfoForm.ui'
 #
-# Created by: PyQt5 UI code generator 5.6
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -82,9 +82,11 @@ class Ui_WalletInfoForm(object):
         self.label_15.setObjectName("label_15")
         self.closeenterpsw = QtWidgets.QPushButton(WalletInfoForm)
         self.closeenterpsw.setGeometry(QtCore.QRect(450, 0, 41, 31))
+        self.closeenterpsw.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.closeenterpsw.setStyleSheet("border:0px;")
         self.closeenterpsw.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("/Users/swei/Desktop/veralalalala/WaltonWallet_Mac/pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.closeenterpsw.setIcon(icon)
         self.closeenterpsw.setFlat(True)
         self.closeenterpsw.setObjectName("closeenterpsw")

@@ -119,11 +119,17 @@ QLineEdit[echoMode=&quot;2&quot;] {
   <widget class="QPushButton" name="closeenterpsw">
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>10</y>
+     <x>500</x>
+     <y>0</y>
      <width>41</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:0px;</string>
    </property>
    <property name="text">
     <string/>
@@ -189,8 +195,14 @@ background-color: rgb(230, 238, 255);</string>
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="autoFillBackground">
     <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:0px;</string>
    </property>
    <property name="text">
     <string/>

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'AccountForm.ui'
 #
-# Created by: PyQt5 UI code generator 5.6
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -51,6 +51,7 @@ class Ui_AccountForm(object):
         font.setPointSize(16)
         self.pushButton_9.setFont(font)
         self.pushButton_9.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_9.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_9.setStyleSheet("background-color: rgb(170, 0, 255);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius:25px;")
@@ -68,9 +69,11 @@ class Ui_AccountForm(object):
         self.label_15.setObjectName("label_15")
         self.closeenterpsw = QtWidgets.QPushButton(AccountForm)
         self.closeenterpsw.setGeometry(QtCore.QRect(570, 0, 41, 31))
+        self.closeenterpsw.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.closeenterpsw.setStyleSheet("border:0px;")
         self.closeenterpsw.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.closeenterpsw.setIcon(icon)
         self.closeenterpsw.setFlat(True)
         self.closeenterpsw.setObjectName("closeenterpsw")

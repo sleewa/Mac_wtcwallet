@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'NewContactForm.ui'
 #
-# Created by: PyQt5 UI code generator 5.6
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -20,6 +20,7 @@ class Ui_NewContactForm(object):
         font.setPointSize(16)
         self.pushButton_9.setFont(font)
         self.pushButton_9.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_9.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_9.setStyleSheet("background-color: rgb(170, 0, 255);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius:25px;")
@@ -93,10 +94,12 @@ class Ui_NewContactForm(object):
         self.pushButton_36 = QtWidgets.QPushButton(NewContactForm)
         self.pushButton_36.setGeometry(QtCore.QRect(410, 110, 41, 41))
         self.pushButton_36.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_36.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_36.setAutoFillBackground(False)
+        self.pushButton_36.setStyleSheet("border:0px;")
         self.pushButton_36.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./pic/06.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("pic/06.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_36.setIcon(icon)
         self.pushButton_36.setIconSize(QtCore.QSize(77, 77))
         self.pushButton_36.setAutoDefault(False)
@@ -114,9 +117,11 @@ class Ui_NewContactForm(object):
         self.label_15.setObjectName("label_15")
         self.closeenterpsw = QtWidgets.QPushButton(NewContactForm)
         self.closeenterpsw.setGeometry(QtCore.QRect(430, 0, 41, 31))
+        self.closeenterpsw.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.closeenterpsw.setStyleSheet("border:0px;")
         self.closeenterpsw.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("./pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("pic/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.closeenterpsw.setIcon(icon1)
         self.closeenterpsw.setFlat(True)
         self.closeenterpsw.setObjectName("closeenterpsw")

@@ -85,6 +85,12 @@ background-color: rgb(230, 238, 255);</string>
      <height>31</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:0px;</string>
+   </property>
    <property name="text">
     <string/>
    </property>
@@ -108,8 +114,14 @@ background-color: rgb(230, 238, 255);</string>
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="autoFillBackground">
     <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:0px;</string>
    </property>
    <property name="text">
     <string/>

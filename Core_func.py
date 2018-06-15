@@ -259,7 +259,7 @@ def getAccountBalance(public_key):
 def getMiningRecord(public_key):
     try:
         r1 = requests.get(
-            "https://waltonchain.net:18950/api/getMinedBlocksPagination/"+public_key+"/1/12").json()
+            "https://waltonchain.net:18950/api/getMinedBlocksPagination/"+public_key+"/1/30").json()
         return (1, r1['tx_pagination_details'])
     except Exception as err:
         print(err)
@@ -546,7 +546,7 @@ def generatesettingXml():
 
 
 # print(getTransactionInfo('0x4a0f05cd4d901a50af76f6d8cbf56c2fd8a7fc09dcec49706e240ae068b919f5'))
-
+print(getTransactionRecord_day('AB828046856F5886a3835C914862E0F5f834Ee7d', '2'))
 # print(getTransactionRecord('0xAB828046856F5886a3835C914862E0F5f834Ee7d'))
 # ret = Import_mnemonic('111111', '111111', 'antique profit purse nut forum cactus amount genius rally army behind elbow')
 # print(getDifficulty()[1][0][1])
