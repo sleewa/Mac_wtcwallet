@@ -1,10 +1,51 @@
 <?xml version="1.0" ?>
 <ArrayOfWalletBaseEntity xmlns:xsd="&quot;http://www.w3.org/2001/XMLSchema&quot;">
+                  
  <WalletBaseEntity>
+                                    
   <Address>0xFBf36B7c56258dC3e29769C1a686250B8B002dE3</Address>
+                                    
   <UUID/>
+                                    
   <AccountName>0xFBf36B7c</AccountName>
+                                    
   <FileName>./Data/keystores/FBf36B7c56258dC3.keystore</FileName>
+                                    
   <GMN>false</GMN>
+                           
  </WalletBaseEntity>
+                
+ <WalletBaseEntity>
+                                
+  <Address>0x2578484fcB6BD0cC493F3391a649A61EdB7cDC96</Address>
+                                
+  <UUID/>
+                                
+  <AccountName>0x2578484f</AccountName>
+                                
+  <FileName>./Data/keystores/2578484fcB6BD0cC.keystore</FileName>
+                                
+  <GMN>false</GMN>
+                        
+ </WalletBaseEntity>
+              
+ <WalletBaseEntity>
+                            
+  <Address>0xdf41c31bf6b3A38E15D2ee6AF62a2024ECc6d13F</Address>
+                            
+  <UUID/>
+                            
+  <AccountName>0xdf41c31b</AccountName>
+                            
+  <FileName>./Data/keystores/df41c31bf6b3A38E.keystore</FileName>
+                            
+  <GMN>false</GMN>
+                     
+ </WalletBaseEntity>
+            
+          
+        
+      
+    
+  
 </ArrayOfWalletBaseEntity>

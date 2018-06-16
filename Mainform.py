@@ -1044,6 +1044,7 @@ class messform(QWidget, Ui_MessForm):
         btnc.clicked.connect(self.closeform)
         btnconfirm = self.ui.pushButton_9
         btnconfirm.clicked.connect(self.closeform)
+        self.Dialog.publishform = publishform(self.Dialog)
         self.parentw = PRAE
         self.Dialog.close()
 
@@ -1054,6 +1055,10 @@ class messform(QWidget, Ui_MessForm):
         ex.ui.LogMessage.item(row, 0).setForeground(QBrush(QColor(0, 0, 0)))
         ex.ui.LogMessage.item(row, 1).setForeground(QBrush(QColor(0, 0, 0)))
         ex.ui.LogMessage.item(row, 2).setForeground(QBrush(QColor(0, 0, 0)))
+
+        # ret = Core_func.getTransactionRecord(self.m_wallet.address)
+        # if ret[0] == 1:
+        #     ret[1][row]
 
         ind = Core_func.QTableWidget.indexFromItem(
             ex.ui.LogMessage, ex.ui.LogMessage.item(row, 2))
@@ -1079,7 +1084,7 @@ class messform(QWidget, Ui_MessForm):
             self.Dialog.show()
             self.Dialog.exec_()
         except Exception as err:
-            self.publishform.show_w2(
+            self.Dialog.publishform.show_w2(
                 'get information failed,please try again', self)
             return 1
 
@@ -1967,20 +1972,22 @@ class Example(QDialog, QWidget):
             newItemName = QTableWidgetItem(self.m_wallet.accountname)
             self.ui.multWallet.setItem(Rcount, 1, newItemAddr)
             self.ui.multWallet.setItem(Rcount, 0, newItemName)
-            newItemdel = QTableWidgetItem('(   Delete   )')
+            newItemdel = QTableWidgetItem('   Delete   ')
             newItemdel.setForeground(QBrush(QColor(170, 0, 255)))
             newItemdel.setFlags(QtCore.Qt.ItemIsEnabled)
-            newItemopen = QTableWidgetItem('(    Open    )')
+            newItemopen = QTableWidgetItem('    Open    ')
             newItemopen.setForeground(QBrush(QColor(170, 0, 255)))
             newItemopen.setFlags(QtCore.Qt.ItemIsEnabled)
 
-            newItemedit = QTableWidgetItem('(    Edit    )')
+            newItemedit = QTableWidgetItem('    Edit    ')
             newItemedit.setForeground(QBrush(QColor(170, 0, 255)))
             newItemedit.setFlags(QtCore.Qt.ItemIsEnabled)
 
-            newItemsave = QTableWidgetItem('(  Save key  )')
+            newItemsave = QTableWidgetItem('  Save key  ')
             newItemsave.setForeground(QBrush(QColor(170, 0, 255)))
             newItemsave.setFlags(QtCore.Qt.ItemIsEnabled)
+
+
 
             self.ui.multWallet.setItem(Rcount, 2, newItemopen)
             self.ui.multWallet.setItem(Rcount, 3, newItemedit)
@@ -2027,20 +2034,22 @@ class Example(QDialog, QWidget):
                     newItemName = QTableWidgetItem(self.m_wallet.accountname)
                     self.ui.multWallet.setItem(Rcount, 1, newItemAddr)
                     self.ui.multWallet.setItem(Rcount, 0, newItemName)
-                    newItemdel = QTableWidgetItem('(   Delete   )')
+                    newItemdel = QTableWidgetItem('   Delete   ')
                     newItemdel.setForeground(QBrush(QColor(170, 0, 255)))
                     newItemdel.setFlags(QtCore.Qt.ItemIsEnabled)
-                    newItemopen = QTableWidgetItem('(    Open    )')
+                    newItemopen = QTableWidgetItem('    Open    ')
                     newItemopen.setForeground(QBrush(QColor(170, 0, 255)))
                     newItemopen.setFlags(QtCore.Qt.ItemIsEnabled)
 
-                    newItemedit = QTableWidgetItem('(    Edit    )')
+                    newItemedit = QTableWidgetItem('    Edit    ')
                     newItemedit.setForeground(QBrush(QColor(170, 0, 255)))
                     newItemedit.setFlags(QtCore.Qt.ItemIsEnabled)
 
-                    newItemsave = QTableWidgetItem('(  Save key  )')
+                    newItemsave = QTableWidgetItem('  Save key  ')
                     newItemsave.setForeground(QBrush(QColor(170, 0, 255)))
                     newItemsave.setFlags(QtCore.Qt.ItemIsEnabled)
+
+
 
                     self.ui.multWallet.setItem(Rcount, 2, newItemopen)
                     self.ui.multWallet.setItem(Rcount, 3, newItemedit)
@@ -2132,18 +2141,18 @@ class Example(QDialog, QWidget):
         newItemName = QTableWidgetItem(self.m_wallet.accountname)
         self.ui.multWallet.setItem(Rcount-1, 1, newItemAddr)
         self.ui.multWallet.setItem(Rcount-1, 0, newItemName)
-        newItemdel = QTableWidgetItem('(   Delete   )')
+        newItemdel = QTableWidgetItem('   Delete   ')
         newItemdel.setForeground(QBrush(QColor(170, 0, 255)))
         newItemdel.setFlags(QtCore.Qt.ItemIsEnabled)
-        newItemopen = QTableWidgetItem('(    Open    )')
+        newItemopen = QTableWidgetItem('    Open    ')
         newItemopen.setForeground(QBrush(QColor(170, 0, 255)))
         newItemopen.setFlags(QtCore.Qt.ItemIsEnabled)
 
-        newItemedit = QTableWidgetItem('(    Edit    )')
+        newItemedit = QTableWidgetItem('    Edit    ')
         newItemedit.setForeground(QBrush(QColor(170, 0, 255)))
         newItemedit.setFlags(QtCore.Qt.ItemIsEnabled)
 
-        newItemsave = QTableWidgetItem('(  Save key  )')
+        newItemsave = QTableWidgetItem('  Save key  ')
         newItemsave.setForeground(QBrush(QColor(170, 0, 255)))
         newItemsave.setFlags(QtCore.Qt.ItemIsEnabled)
 
@@ -3016,13 +3025,13 @@ class Example(QDialog, QWidget):
                     #
                     # item.setIcon(dela)
                     #item.setIconSize(QSize(80, 60))
-                    newItemdel = QTableWidgetItem('(   delete   )')
+                    newItemdel = QTableWidgetItem('   delete   ')
                     newItemdel.setForeground(QBrush(QColor(170, 0, 255)))
                     newItemdel.setFlags(QtCore.Qt.ItemIsEnabled)
-                    newItemsend = QTableWidgetItem('(    send    )')
+                    newItemsend = QTableWidgetItem('    send    ')
                     newItemsend.setForeground(QBrush(QColor(170, 0, 255)))
                     newItemsend.setFlags(QtCore.Qt.ItemIsEnabled)
-                    newItemedit = QTableWidgetItem('(    edit    )')
+                    newItemedit = QTableWidgetItem('    edit    ')
                     newItemedit.setForeground(QBrush(QColor(170, 0, 255)))
                     newItemedit.setFlags(QtCore.Qt.ItemIsEnabled)
 
@@ -3066,20 +3075,24 @@ class Example(QDialog, QWidget):
                     self.ui.multWallet.setItem(Rcount, 0, newItemname)
                     self.ui.multWallet.setItem(Rcount, 1, newItemaddr)
 
-                    newItemdel = QTableWidgetItem('(   Delete   )')
+                    newItemdel = QTableWidgetItem('   Delete   ')
                     newItemdel.setForeground(QBrush(QColor(170, 0, 255)))
                     newItemdel.setFlags(QtCore.Qt.ItemIsEnabled)
-                    newItemopen = QTableWidgetItem('(    Open    )')
+                    newItemopen = QTableWidgetItem('    Open    ')
                     newItemopen.setForeground(QBrush(QColor(170, 0, 255)))
                     newItemopen.setFlags(QtCore.Qt.ItemIsEnabled)
 
-                    newItemedit = QTableWidgetItem('(    Edit    )')
+                    newItemedit = QTableWidgetItem('    Edit    ')
                     newItemedit.setForeground(QBrush(QColor(170, 0, 255)))
                     newItemedit.setFlags(QtCore.Qt.ItemIsEnabled)
 
-                    newItemsave = QTableWidgetItem('(  Save key  )')
+                    newItemsave = QTableWidgetItem('  Save key  ')
                     newItemsave.setForeground(QBrush(QColor(170, 0, 255)))
                     newItemsave.setFlags(QtCore.Qt.ItemIsEnabled)
+                    # item = QTableWidgetItem()
+                    # icon20 = QtGui.QIcon('pic/e3.jpg')
+                    # item.setIcon(icon20)
+
 
                     self.ui.multWallet.setItem(Rcount, 2, newItemopen)
                     self.ui.multWallet.setItem(Rcount, 3, newItemedit)
@@ -3731,11 +3744,11 @@ class Example(QDialog, QWidget):
 
         # self.ui.multWallet.horizontalHeader().setDefaultSectionSize(0,180)
         self.ui.multWallet.setColumnWidth(0, 120)  #
-        self.ui.multWallet.setColumnWidth(1, 300)  #
-        self.ui.multWallet.setColumnWidth(2, 90)  #
-        self.ui.multWallet.setColumnWidth(3, 90)  #
-        self.ui.multWallet.setColumnWidth(4, 90)  #
-        self.ui.multWallet.setColumnWidth(5, 90)  #
+        self.ui.multWallet.setColumnWidth(1, 320)  #
+        self.ui.multWallet.setColumnWidth(2, 85)  #
+        self.ui.multWallet.setColumnWidth(3, 85)  #
+        self.ui.multWallet.setColumnWidth(4, 85)  #
+        self.ui.multWallet.setColumnWidth(5, 85)  #
 
         self.ui.multWallet.verticalHeader().setDefaultSectionSize(45)
         self.ui.multWallet.setFrameShape(QFrame.Box)  #

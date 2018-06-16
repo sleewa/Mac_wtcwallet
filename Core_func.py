@@ -546,9 +546,14 @@ def generatesettingXml():
 
 
 # print(getTransactionInfo('0x4a0f05cd4d901a50af76f6d8cbf56c2fd8a7fc09dcec49706e240ae068b919f5'))
-print(getTransactionRecord_day('AB828046856F5886a3835C914862E0F5f834Ee7d', '2'))
+# print(getTransactionRecord_day('AB828046856F5886a3835C914862E0F5f834Ee7d', '2'))
+# nonce = requests.get(
+#         "https://waltonchain.net:18950/api/getSendTransactionNonce/"+'0xAB828046856F5886a3835C914862E0F5f834Ee7d').json()["send_nonce"]
+# print(nonce)
+# ret = Transaction_out(
+#                     ex.m_wallet.privateKey, ex.Trans.toaddr, ex.Trans.value, ex.Trans.Gas, ex.Trans.Gasprice)
 # print(getTransactionRecord('0xAB828046856F5886a3835C914862E0F5f834Ee7d'))
 # ret = Import_mnemonic('111111', '111111', 'antique profit purse nut forum cactus amount genius rally army behind elbow')
 # print(getDifficulty()[1][0][1])
 # print(getTransactionRecord('0xAB828046856F5886a3835C914862E0F5f834Ee7d')[1][1])
-# Transaction_out('3373c7af355f86b8dc9f02d386bea047da063ed541ed927d149214134012e451', '0xFBf36B7c56258dC3e29769C1a686250B8B002dE3', 2, 200000, 0.000000036)
+# Transaction_out('3373c7af355f86b8dc9f02d386bea047da063ed541ed927d149214134012e451', '0xFBf36B7c56258dC3e29769C1a686250B8B002dE3', 0.00002, 200000, 0.000000036)
