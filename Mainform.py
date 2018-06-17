@@ -2462,12 +2462,14 @@ class Example(QDialog, QWidget):
                                             newItemblockType = QTableWidgetItem(
                                                 'Success')
                                         else:
+                                            print(int(self.newblock))
+                                            print('my block:'+str(int(ret[1][i]['blockNumber'])))
                                             if (int(self.newblock) - int(ret[1][i]['blockNumber'])) >= 0:
                                                 newItemblockType = QTableWidgetItem(
                                                     str(int(self.newblock) - int(ret[1][i]['blockNumber']))+'/12')
                                             else:
                                                 newItemblockType = QTableWidgetItem(
-                                                    'Submitted')
+                                                    '0/12')
                                         if self.m_wallet.address.lower() == ret[1][i]['addressFrom']:
                                             item = QTableWidgetItem()
                                             dela = QtGui.QIcon('pic/send3.png')
@@ -2572,8 +2574,12 @@ class Example(QDialog, QWidget):
                                             newItemblockType = QTableWidgetItem(
                                                 'Success')
                                         else:
-                                            newItemblockType = QTableWidgetItem(
-                                                str(int(self.newblock) - int(ret[1][i]['blockNumber']))+'/12')
+                                            if (int(self.newblock) - int(ret[1][i]['blockNumber'])) >= 0:
+                                                newItemblockType = QTableWidgetItem(
+                                                    str(int(self.newblock) - int(ret[1][i]['blockNumber']))+'/12')
+                                            else:
+                                                newItemblockType = QTableWidgetItem(
+                                                    '0/12')
                                         if self.m_wallet.address.lower() == ret[1][i]['addressFrom']:
                                             item = QTableWidgetItem()
                                             dela = QtGui.QIcon('pic/send3.png')
@@ -3447,7 +3453,7 @@ class Example(QDialog, QWidget):
 
         self.timerchart = QTimer(self)  #
         self.timerchart.timeout.connect(self.initchart)  #
-        self.timerchart.start(80000)  #
+        self.timerchart.start(280000)  #
         self.timermap = QTimer(self)  #
         self.timermap.timeout.connect(self.initmap)  #
         self.timermap.start(1730000)  #
