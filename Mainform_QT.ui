@@ -414,7 +414,7 @@ color: rgb(93, 93, 93);</string>
     <enum>QFrame::NoFrame</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="p0">
     <widget class="QLabel" name="label_3">
@@ -2395,7 +2395,7 @@ border-radius:25px;</string>
         <enum>Qt::NoFocus</enum>
        </property>
        <property name="autoFillBackground">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="styleSheet">
         <string notr="true">border:0px;</string>
@@ -2455,7 +2455,7 @@ border-radius:25px;</string>
         <enum>Qt::NoFocus</enum>
        </property>
        <property name="autoFillBackground">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="styleSheet">
         <string notr="true">border:0px;</string>
@@ -2709,7 +2709,7 @@ background-color: rgb(230, 238, 255);
         <enum>Qt::NoFocus</enum>
        </property>
        <property name="autoFillBackground">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="styleSheet">
         <string notr="true">border:0px;</string>
@@ -2775,7 +2775,7 @@ background-color: rgb(230, 238, 255);</string>
         <enum>Qt::NoFocus</enum>
        </property>
        <property name="autoFillBackground">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="styleSheet">
         <string notr="true">border:0px;</string>
@@ -5352,6 +5352,59 @@ QLineEdit[echoMode=&quot;2&quot;] {
       <string/>
      </property>
     </widget>
+    <widget class="QLineEdit" name="lineEdit_46">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>230</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>微软雅黑</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string/>
+     </property>
+     <property name="statusTip">
+      <string/>
+     </property>
+     <property name="whatsThis">
+      <string/>
+     </property>
+     <property name="accessibleName">
+      <string/>
+     </property>
+     <property name="accessibleDescription">
+      <string/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);
+QLineEdit[echoMode=&quot;2&quot;] {
+    lineedit-password-character:42;
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="frame">
+      <bool>false</bool>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Normal</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string/>
+     </property>
+    </widget>
     <zorder>pushButton_19</zorder>
     <zorder>pushButton_20</zorder>
     <zorder>label_8</zorder>
@@ -5375,6 +5428,7 @@ QLineEdit[echoMode=&quot;2&quot;] {
     <zorder>lineEdit_43</zorder>
     <zorder>lineEdit_44</zorder>
     <zorder>lineEdit_45</zorder>
+    <zorder>lineEdit_46</zorder>
    </widget>
    <widget class="QWidget" name="p3">
     <widget class="QLabel" name="label_18">

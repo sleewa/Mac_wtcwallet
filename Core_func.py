@@ -557,3 +557,6 @@ def generatesettingXml():
 # print(getDifficulty()[1][0][1])
 # print(getTransactionRecord('0xAB828046856F5886a3835C914862E0F5f834Ee7d')[1][1])
 # Transaction_out('3373c7af355f86b8dc9f02d386bea047da063ed541ed927d149214134012e451', '0xFBf36B7c56258dC3e29769C1a686250B8B002dE3', 0.00002, 200000, 0.000000036)
+# balance = requests.get(
+#             "https://waltonchain.net:18950/api/getBalance/" + '0xFBf36B7c56258dC3e29769C1a686250B8B002dE3').json()
+# print(balance)

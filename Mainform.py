@@ -137,9 +137,9 @@ class changepswform(QWidget, Ui_ChangePswForm):
         self.Dialog = QDialog(PRAE)
         self.ui.setupUi(self.Dialog)
         # self.ui.setupUi(self)
-        self.publishform = publishform(self)
-
+        # self.publishform = publishform(self)
         self.Dialog.setWindowFlags(Qt.CustomizeWindowHint)
+
         btnc = self.ui.closeenterpsw
         btnc.clicked.connect(self.closeform)
         btnsave = self.ui.pushButton_9
@@ -158,7 +158,7 @@ class changepswform(QWidget, Ui_ChangePswForm):
         self.passwordeye = 1
         self.passwordeye2 = 1
         self.passwordeye3 = 1
-
+        self.Dialog.publishform = publishform(self.Dialog)
         self.Dialog.close()
 
     def show_w2(self, PRAE):
@@ -187,8 +187,8 @@ class changepswform(QWidget, Ui_ChangePswForm):
     def savechange(self):
         if self.setable == 0:
             if len(self.ui.lineEdit_8.text()) < 6:
-                self.publishform.show_w2(
-                    'Please enter at least 6 characters', self)
+                self.Dialog.publishform.show_w2(
+                    'Please enter at least 6 characters', self.Dialog)
             else:
                 hl = hashlib.md5()
                 hl.update(self.ui.lineEdit_8.text().encode(encoding='utf-8'))
@@ -654,13 +654,16 @@ class Figure_Canvas(FigureCanvas):
                         day_totol = int(ret3[1][i]['totol_reward'])
                     else:
                         day_totol = day_totol + int(ret3[1][i]['totol_reward'])
+                        if i == a:
+                            x.append(j)
+                            if day_totol >= totol:
+                                totol = day_totol
+                            y.append(day_totol)
 
-                    if i == a:
+                    if j == 0:
+                        y = [0,day_totol]
+                        x = [0,1]
 
-                        x.append(j)
-                        if day_totol >= totol:
-                            totol = day_totol
-                        y.append(day_totol)
 
 
                 #y.append(0)
@@ -670,7 +673,7 @@ class Figure_Canvas(FigureCanvas):
                 # self.axes.plot(x, y, 'r-', 1)
                 self.axes.bar(x, y,fc='r')
                 self.axes.set_axis_off()
-                return totol
+                return (totol,j)
             else:
                 y = [0]
                 x = [0]
@@ -1085,7 +1088,7 @@ class messform(QWidget, Ui_MessForm):
             self.Dialog.exec_()
         except Exception as err:
             self.Dialog.publishform.show_w2(
-                'get information failed,please try again', self)
+                'get information failed,please try again', self.Dialog)
             return 1
 
     def mousePressEvent(self, event):
@@ -1154,13 +1157,13 @@ class newcontactform(QWidget, Ui_NewContactForm):
                 ex.ui.ContactsT.setItem(Rcount, 1, newItemAddr)
                 ex.ui.ContactsT.setItem(Rcount, 0, newItemName)
 
-                newItemdel = QTableWidgetItem('(   delete   )')
+                newItemdel = QTableWidgetItem('   delete   ')
                 newItemdel.setForeground(QBrush(QColor(170, 0, 255)))
                 newItemdel.setFlags(QtCore.Qt.ItemIsEnabled)
-                newItemsend = QTableWidgetItem('(    send    )')
+                newItemsend = QTableWidgetItem('    send    ')
                 newItemsend.setForeground(QBrush(QColor(170, 0, 255)))
                 newItemsend.setFlags(QtCore.Qt.ItemIsEnabled)
-                newItemedit = QTableWidgetItem('(    edit    )')
+                newItemedit = QTableWidgetItem('    edit    ')
                 newItemedit.setForeground(QBrush(QColor(170, 0, 255)))
                 newItemedit.setFlags(QtCore.Qt.ItemIsEnabled)
 
@@ -1355,7 +1358,7 @@ class sendform(QWidget, Ui_SendForm):
         btnsend = self.ui.pushButton_9
         btnsend.clicked.connect(self.showenterphrase)
         self.accountform = accountform(self)
-        self.publishform = publishform(self)
+        self.Dialog.publishform = publishform(self.Dialog)
         btncont = self.ui.pushButton_34
         btncont.clicked.connect(lambda: self.accountform.show_w2(self))
 
@@ -1403,7 +1406,13 @@ class sendform(QWidget, Ui_SendForm):
     def show_w2(self, PRAE, row='none'):
         self.ui.radioButton_2.setChecked(True)
         if ex.m_wallet.address == '':
-            self.publishform.show_w2('Please Choose Wallet', self)
+            screen = PRAE.geometry()
+            size = self.Dialog.geometry()
+            self.Dialog.move((screen.width() - size.width()) / 2,
+                             (screen.height() - size.height()) / 2)
+            self.Dialog.show()
+            self.Dialog.publishform.show_w2('Please Choose Wallet', self.Dialog)
+            self.Dialog.close()
         else:
             balance = requests.get(
                 "https://waltonchain.net:18950/api/getBalance/" + ex.m_wallet.address).json()
@@ -1431,6 +1440,27 @@ class sendform(QWidget, Ui_SendForm):
             ex.Trans.toaddr = self.ui.lineEdit_7.text().strip()
         else:
             self.ui.lineEdit_7.setText(ex.Trans.toaddr)
+        balance = requests.get(
+            "https://waltonchain.net:18950/api/getBalance/" + ex.m_wallet.address).json()['Balance']
+        if float(balance) <= 0:
+            self.Dialog.publishform.show_w2("The sum of amount must be more than 0!", self.Dialog)
+            return
+
+        if float(ex.Trans.Gas) < 30000:
+            self.Dialog.publishform.show_w2("Gas limit must be more than 30000!", self.Dialog)
+            return
+
+        if float(ex.Trans.Gasprice) < 0.000000018:
+            self.Dialog.publishform.show_w2("Gas price must be more than " + '0.000000018' + "!", self.Dialog)
+            return
+
+
+        if float(ex.Trans.value) + float(ex.Trans.Gas) * float(ex.Trans.Gasprice) > float(balance) :
+            self.Dialog.publishform.show_w2("You don't have enough coins!", self.Dialog)
+            return
+
+
+
         self.enterpswform = enterpswform(self)
         print('enter')
         self.enterpswform.show_w2(ex.ui.lineEdit_8.text(), self, 1)
@@ -1778,10 +1808,10 @@ class Example(QDialog, QWidget):
                 ret = Core_func.Import_From_Private(
                     enterpri.strip(), self.ui.lineEdit_19.text())
                 if ret[0] == 1:
-                    if len(self.transroot.getElementsByTagName('AddressTransactionsEntity'))>0:
-                        for i in range(len(self.transroot.getElementsByTagName('AddressTransactionsEntity'))):
-                            AddressTransactionsEntity = self.transroot.getElementsByTagName(
-                                'AddressTransactionsEntity')[i]
+                    if len(self.walletroot.getElementsByTagName('WalletBaseEntity'))>0:
+                        for i in range(len(self.walletroot.getElementsByTagName('WalletBaseEntity'))):
+                            AddressTransactionsEntity = self.walletroot.getElementsByTagName(
+                                'WalletBaseEntity')[i]
                             if self.m_wallet.address == AddressTransactionsEntity.getElementsByTagName('Address')[
                                 0].firstChild.data:
                                 self.publishform.show_w2('Already Exists',self)
@@ -1878,10 +1908,10 @@ class Example(QDialog, QWidget):
                 ret = Core_func.Import_Keystore(
                     self.ui.lineEdit_6.text(), content)
                 if ret[0] == 1:
-                    if len(self.transroot.getElementsByTagName('AddressTransactionsEntity'))>0:
-                        for i in range(len(self.transroot.getElementsByTagName('AddressTransactionsEntity'))):
-                            AddressTransactionsEntity = self.transroot.getElementsByTagName(
-                                'AddressTransactionsEntity')[i]
+                    if len(self.walletroot.getElementsByTagName('WalletBaseEntity'))>0:
+                        for i in range(len(self.walletroot.getElementsByTagName('WalletBaseEntity'))):
+                            AddressTransactionsEntity = self.walletroot.getElementsByTagName(
+                                'WalletBaseEntity')[i]
                             if self.m_wallet.address == AddressTransactionsEntity.getElementsByTagName('Address')[
                                 0].firstChild.data:
                                 self.publishform.show_w2('Already Exists',self)
@@ -2436,18 +2466,21 @@ class Example(QDialog, QWidget):
 
     def refresh(self):
         if os.path.isfile('trans.xml'):
+            print('refresh1')
             if len(self.transroot.getElementsByTagName('AddressTransactionsEntity'))>0:
+                print('refresh2')
+                try:
+                    self.newblock = Core_func.getLatestBlock()[1]
+                except Exception as err:
+                    self.publishform.show_w2(
+                        'refresh failed,please try again', self)
+                    return 1
                 for AddressTransactionsEntity in self.transroot.getElementsByTagName('AddressTransactionsEntity'):
                     if AddressTransactionsEntity.getElementsByTagName('Address')[0].firstChild.data == self.m_wallet.address:
                         if len(AddressTransactionsEntity.getElementsByTagName('TransactionList')) > 0:
                             TransactionList = AddressTransactionsEntity.getElementsByTagName('TransactionList')[
                                 0]
-                            try:
-                                self.newblock = Core_func.getLatestBlock()[1]
-                            except Exception as err:
-                                self.publishform.show_w2(
-                                    'refresh failed,please try again', self)
-                                return 1
+
                             if len(TransactionList.getElementsByTagName('AccountTransactionsEntity')) == 0:
                                 ret = Core_func.getTransactionRecord(
                                     self.m_wallet.address)
@@ -2562,7 +2595,6 @@ class Example(QDialog, QWidget):
                                         0, 3, newItemblockType)
                                     self.ui.TransactionHistory.setItem(
                                         0, 4, newItemvalue)
-                                    print('add sub')
                                 ret = Core_func.getTransactionRecord(
                                     self.m_wallet.address)
                                 if ret[0] == 1:
@@ -2611,6 +2643,59 @@ class Example(QDialog, QWidget):
                                             Transrow, 3, newItemblockType)
                                         self.ui.TransactionHistory.setItem(
                                             Transrow, 4, newItemvalue)
+                    else:
+                        ret = Core_func.getTransactionRecord(
+                            self.m_wallet.address)
+                        if ret[0] == 1:
+                            self.ui.TransactionHistory.setRowCount(0)
+
+                            for i in range(len(ret[1])):
+                                Transrow = self.ui.TransactionHistory.rowCount()
+                                self.ui.TransactionHistory.setRowCount(
+                                    Transrow + 1)
+                                if int(self.newblock) - int(ret[1][i]['blockNumber']) > 11:
+                                    newItemblockType = QTableWidgetItem(
+                                        'Success')
+                                else:
+                                    print(int(self.newblock))
+                                    print('my block:' + str(int(ret[1][i]['blockNumber'])))
+                                    if (int(self.newblock) - int(ret[1][i]['blockNumber'])) >= 0:
+                                        newItemblockType = QTableWidgetItem(
+                                            str(int(self.newblock) - int(ret[1][i]['blockNumber'])) + '/12')
+                                    else:
+                                        newItemblockType = QTableWidgetItem(
+                                            '0/12')
+                                if self.m_wallet.address.lower() == ret[1][i]['addressFrom']:
+                                    item = QTableWidgetItem()
+                                    dela = QtGui.QIcon('pic/send3.png')
+                                    item.setIcon(dela)
+                                    newItemvalue = QTableWidgetItem(
+                                        '-' + str(ret[1][i]['value']) + 'WTCT')
+                                    newItemtoaddr = QTableWidgetItem(
+                                        ret[1][i]['addressTo'])
+                                else:
+                                    item = QTableWidgetItem()
+                                    dela = QtGui.QIcon('pic/recieve3.png')
+                                    item.setIcon(dela)
+                                    newItemtoaddr = QTableWidgetItem(
+                                        ret[1][i]['addressFrom'])
+                                    newItemvalue = QTableWidgetItem(
+                                        str(ret[1][i]['value']) + 'WTCT')
+                                time_s = datetime.datetime.strptime(
+                                    ret[1][i]['utc_timestamp'], "%Y-%m-%d %H:%M:%S")
+                                localtime = Core_func.utc2local(time_s)
+                                newItemTime = QTableWidgetItem(
+                                    localtime.strftime('%Y-%m-%d %H:%M:%S'))
+                                self.ui.TransactionHistory.setItem(
+                                    Transrow, 0, item)
+                                self.ui.TransactionHistory.setItem(
+                                    Transrow, 1, newItemTime)
+                                self.ui.TransactionHistory.setItem(
+                                    Transrow, 2, newItemtoaddr)
+                                self.ui.TransactionHistory.setItem(
+                                    Transrow, 3, newItemblockType)
+                                self.ui.TransactionHistory.setItem(
+                                    Transrow, 4, newItemvalue)
         self.ui.lineEdit_31.setText(time.strftime(
             '%Y/%m/%d %H:%M:%S', time.localtime(time.time())))
         self.refreshlog()
@@ -2955,12 +3040,17 @@ class Example(QDialog, QWidget):
                 self.ui.lineEdit_43.setText('')
                 self.ui.lineEdit_44.setText('')
                 self.ui.lineEdit_45.setText('')
+                self.ui.lineEdit_46.setText('')
             else:
-                time_start = datetime.datetime.strptime(ret3[1][miningnum-1]['timestamp'], "%Y-%m-%d %H:%M:%S")
-                time_end = datetime.datetime.strptime(ret3[1][0]['timestamp'], "%Y-%m-%d %H:%M:%S")
-                self.ui.lineEdit_43.setText(time_start.strftime('%Y-%m-%d'))
-                self.ui.lineEdit_44.setText(time_end.strftime('%Y-%m-%d'))
-                self.ui.lineEdit_45.setText(str(ret4))
+                if ret4[1]==0:
+                    time_end = datetime.datetime.strptime(ret3[1][0]['timestamp'], "%Y-%m-%d %H:%M:%S")
+                    self.ui.lineEdit_46.setText(time_end.strftime('%Y-%m-%d'))
+                else:
+                    time_start = datetime.datetime.strptime(ret3[1][miningnum-1]['timestamp'], "%Y-%m-%d %H:%M:%S")
+                    time_end = datetime.datetime.strptime(ret3[1][0]['timestamp'], "%Y-%m-%d %H:%M:%S")
+                    self.ui.lineEdit_43.setText(time_start.strftime('%Y-%m-%d'))
+                    self.ui.lineEdit_44.setText(time_end.strftime('%Y-%m-%d'))
+                self.ui.lineEdit_45.setText(str(ret4[0]))
                 ####
         retM = Core_func.getTokenMarket()
         if retM[0] == 1:
