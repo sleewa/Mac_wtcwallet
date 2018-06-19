@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['Mainform.py'],
-             pathex=['/Users/swei/Desktop/veralalalala/WaltonWallet_Mac'],
+             pathex=['/Users/swei/Desktop/veralalalala/Mac_wtcwallet'],
              binaries=[],
              datas=[('/usr/local/lib/python3.6/site-packages/matplotlib-2.2.2.dist-info', 'matplotlib-2.2.2-py3.6.egg-info'),('/usr/local/lib/python3.6/site-packages/eth_utils-1.0.3.dist-info', 'eth_utils-1.0.3-py3.6.egg-info'),('/usr/local/lib/python3.6/site-packages/eth_keyfile-0.5.1.dist-info', 'eth_keyfile-0.5.1-py3.6.egg-info'),('/usr/local/lib/python3.6/site-packages/eth_abi-1.1.1.dist-info', 'eth_abi-1.1.1-py3.6.egg-info'),('/usr/local/lib/python3.6/site-packages/web3-4.3.0.dist-info', 'web3-4.3.0-py3.6.egg-info')],
              hiddenimports=[],
