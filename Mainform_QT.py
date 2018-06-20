@@ -11,6 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
+        Form.maxbutton = False
         Form.setWindowModality(QtCore.Qt.NonModal)
         Form.resize(1030, 548)
         Form.setMinimumSize(QtCore.QSize(1030, 548))
@@ -3102,7 +3103,7 @@ class Ui_Form(object):
         self.line_27.setObjectName("line_27")
 
         self.retranslateUi(Form)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(1)
         self.importstack.setCurrentIndex(1)
         self.NewWalletstacked.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
@@ -3111,7 +3112,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "WTCT"))
-        self.toolButton.setText(_translate("Form", "                         V1.0.17"))
+        self.toolButton.setText(_translate("Form", "                         V1.0.21"))
         self.mywallet.setText(_translate("Form", "  My Wallet"))
         self.statistic.setText(_translate("Form", "  Statistics"))
         self.message.setText(_translate("Form", "  Message"))

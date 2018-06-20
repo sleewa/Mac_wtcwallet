@@ -12,9 +12,11 @@ class Ui_EnterPswForm(object):
     def setupUi(self, EnterPswForm):
         EnterPswForm.setObjectName("EnterPswForm")
         EnterPswForm.resize(436, 225)
+
         EnterPswForm.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.pushButton_9 = QtWidgets.QPushButton(EnterPswForm)
         self.pushButton_9.setGeometry(QtCore.QRect(74, 160, 261, 41))
+
         font = QtGui.QFont()
         font.setFamily("等线")
         font.setPointSize(16)

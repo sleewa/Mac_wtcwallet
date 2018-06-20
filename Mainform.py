@@ -2,6 +2,7 @@ import re
 import subprocess
 import sys
 # from typing import Type
+import psutil
 from web3 import Web3
 from web3 import HTTPProvider
 import eth_utils
@@ -48,6 +49,8 @@ from PswForm import Ui_PswForm
 from SetPswForm import Ui_SetPswForm
 from ChangePswForm import Ui_ChangePswForm
 from PriKeyForm import Ui_PriKeyForm
+from DeleteForm import Ui_DeleteForm
+
 import subprocess
 import xml.etree.ElementTree as ET
 import matplotlib
@@ -60,6 +63,85 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 print(os.path)
+
+class deleteform(QWidget, Ui_DeleteForm):
+    def __init__(self, PRAE):
+        super().__init__()
+        self.ui = Ui_DeleteForm()
+        self.Dialog = QDialog(PRAE)
+        self.ui.setupUi(self.Dialog)
+        self.Dialog.publishform = publishform(self.Dialog)
+
+        self.Dialog.setWindowFlags(Qt.CustomizeWindowHint)  # .Dialog
+        btnc = self.ui.closeenterpsw
+        btnc.clicked.connect(lambda: self.closeform(PRAE))
+        btnsave = self.ui.pushButton_9
+        btnsave.clicked.connect(lambda: self.confirmpsw(PRAE))
+        btnquit = self.ui.pushButton_10
+        btnquit.clicked.connect(lambda: self.closeform(PRAE))
+        self.passwordeye = 1
+        self.row = 0
+        self.Dialog.close()
+
+    def show_w2(self, PRAE,row):
+        self.row = row
+        screen = PRAE.geometry()
+        size = self.Dialog.geometry()
+        self.Dialog.move((screen.width() - size.width()) / 2,
+                         (screen.height() - size.height()) / 2)
+        self.Dialog.show()
+        self.Dialog.exec_()
+
+    def confirmpsw(self, PRAE):
+        ind = Core_func.QTableWidget.indexFromItem(
+            ex.ui.multWallet, ex.ui.multWallet.item(self.row, 1))
+        filename = "./Data/keystores/" + ind.data()[2:18] + ".keystore"
+
+        addrentity = ex.walletroot.getElementsByTagName('WalletBaseEntity')[
+            self.row]
+        addrentity.parentNode.removeChild(addrentity)
+        f = open('wa.xml', 'w')
+        ex.walletdom.writexml(f, addindent=' ', newl='\n')
+        f.close()
+
+        if os.path.isfile(filename):
+            os.remove(filename)
+        print(ind.data())
+        print(filename)
+        print(ex.m_wallet.address)
+
+        if ind.data() == ex.m_wallet.address:
+            ex.m_wallet.address = ''
+            ex.ui.lineEdit_8.setText('')
+            ex.ui.lineEdit_9.setText('')
+            ex.ui.TransactionHistory.setRowCount(0)
+            ex.ui.LogMessage.setRowCount(0)
+            ex.ui.mywallet.setVisible(0)
+            ex.ui.statistic.setVisible(0)
+            ex.ui.message.setVisible(0)
+            ex.ui.contact.setVisible(0)
+            ex.pressbtn0()
+
+        ex.ui.multWallet.removeRow(self.row)
+
+        self.Dialog.close()
+
+
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.dragPosition = event.globalPos() - self.frameGeometry().topLeft()
+            QApplication.postEvent(self, Core_func.QEvent(174))
+            event.accept()
+
+    def mouseMoveEvent(self, event):
+        if event.buttons() == Qt.LeftButton:
+            self.move(event.globalPos() - self.dragPosition)
+            event.accept()
+
+    def closeform(self, PRAE):
+        self.Dialog.close()
+
 class pswform(QWidget, Ui_PswForm):
     def __init__(self, PRAE):
         super().__init__()
@@ -566,27 +648,30 @@ class Figure_Canvas(FigureCanvas):
 
         FigureCanvas.__init__(self, fig)
         self.setParent(parent)
-
+        self.x=[]
+        self.y=[]
+        self.balance = 0
         self.axes = fig.add_subplot(111)
 
     def test(self,addr):
         if addr != '':
             ret3 = Core_func.getTransactionRecord_day(addr, '30')
 
-            y = []
-            x = [30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2,
+            self.y = []
+            self.x = [30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2,
                  1]
             for i in range(len(ret3[1])):
-                y.append(int(ret3[1][i]['history_balance']))
-            self.axes.plot(x, y, 'r-', 1)
+                self.y.append(int(ret3[1][i]['history_balance']))
+            self.axes.plot(self.x, self.y, 'r-', 1)
             self.axes.set_axis_off()
             print('balance='+str(ret3[1][0]['history_balance']))
+            self.balance = ret3[1][0]['history_balance']
             return ret3[1][0]['history_balance']
 
         else:
-            y = [0]
-            x = [0]
-            self.axes.plot(x, y, 'r-', 1)
+            self.y = [0]
+            self.x = [0]
+            self.axes.plot(self.x, self.y, 'r-', 1)
             self.axes.set_axis_off()
 
             return 0
@@ -605,17 +690,18 @@ class Figure_Canvas(FigureCanvas):
 
     def testB(self,addr):
         if addr != '':
-            ret3 = Core_func.getTransactionRecord_day(addr, '30')
-
-            y = []
-            x = [30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2,
-                 1]
-            for i in range(len(ret3[1])):
-                y.append(int(ret3[1][i]['history_balance']))
+            # ret3 = Core_func.getTransactionRecord_day(addr, '30')
+            #
+            # y = []
+            # x = [30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2,
+            #      1]
+            # for i in range(len(ret3[1])):
+            #     y.append(int(ret3[1][i]['history_balance']))
             #y.append(0)
-            self.axes.plot(x, y, 'r-', 1)
+            self.axes.plot(self.x, self.y, 'r-', 1)
             self.axes.set_axis_off()
-            return  ret3[1][i]['history_balance']
+            return  self.balance
+            # ret3[1][i]['history_balance']
         else:
             y = [0]
             x = [0]
@@ -1456,6 +1542,9 @@ class sendform(QWidget, Ui_SendForm):
 
     def showenterphrase(self):
         # waiting to add passsword checking
+        if ex.peers == 0:
+            self.Dialog.publishform.show_w2("peers connected is 0!", self.Dialog)
+            return
         ex.Trans.value = self.ui.lineEdit_6.text().strip()
         ex.Trans.Type = 'Send'
         ex.Trans.Gas = self.ui.lineEdit_8.text().strip()
@@ -1464,6 +1553,9 @@ class sendform(QWidget, Ui_SendForm):
             ex.Trans.toaddr = self.ui.lineEdit_7.text().strip()
         else:
             self.ui.lineEdit_7.setText(ex.Trans.toaddr)
+        if ex.Trans.toaddr == ex.m_wallet.address:
+            self.Dialog.publishform.show_w2("Can not send to yourself!", self.Dialog)
+            return
         balance = requests.get(
             "https://waltonchain.net:18950/api/getBalance/" + ex.m_wallet.address).json()['Balance']
         if float(balance) <= 0:
@@ -1780,6 +1872,7 @@ class Example(QDialog, QWidget):
         self.ui.importstack.setCurrentIndex(0)
 
     def generateKey(self):
+        print(len(self.ui.lineEdit_4.text()) < 6)
         if len(self.ui.lineEdit_4.text()) < 6:
             self.publishform.show_w2(
                 'Please enter at least 6 characters', self)
@@ -1929,7 +2022,7 @@ class Example(QDialog, QWidget):
         if self.ui.lineEdit_26.text()[-5:] == 'store':
             enterpri = self.ui.lineEdit_20.text()
             enterpri.strip()
-            if len(enterpri.strip()) < 6:
+            if len(enterpri.strip()) > 6:
                 ret = Core_func.Import_Keystore(
                     self.ui.lineEdit_6.text(), content)
                 if ret[0] == 1:
@@ -2138,37 +2231,39 @@ class Example(QDialog, QWidget):
                     self.refreshlog()
 
     def delWallet(self, row):
-        ind = Core_func.QTableWidget.indexFromItem(
-            self.ui.multWallet, self.ui.multWallet.item(row, 1))
-        filename = "./Data/keystores/"+ind.data()[2:18]+".keystore"
-
-
-        addrentity = self.walletroot.getElementsByTagName('WalletBaseEntity')[
-            row]
-        addrentity.parentNode.removeChild(addrentity)
-        f = open('wa.xml', 'w')
-        self.walletdom.writexml(f, addindent=' ', newl='\n')
-        f.close()
-
-        if os.path.isfile(filename):
-            os.remove(filename)
-        print(ind.data())
-        print(filename)
-        print(self.m_wallet.address)
-
-        if ind.data()==self.m_wallet.address:
-            self.m_wallet.address=''
-            self.ui.lineEdit_8.setText('')
-            self.ui.lineEdit_9.setText('')
-            self.ui.TransactionHistory.setRowCount(0)
-            self.ui.LogMessage.setRowCount(0)
-            self.ui.mywallet.setVisible(0)
-            self.ui.statistic.setVisible(0)
-            self.ui.message.setVisible(0)
-            self.ui.contact.setVisible(0)
-            self.pressbtn0()
-
-        self.ui.multWallet.removeRow(row)
+        self.deleteform = deleteform(self)
+        self.deleteform.show_w2(self,row)
+        # ind = Core_func.QTableWidget.indexFromItem(
+        #     self.ui.multWallet, self.ui.multWallet.item(row, 1))
+        # filename = "./Data/keystores/"+ind.data()[2:18]+".keystore"
+        #
+        #
+        # addrentity = self.walletroot.getElementsByTagName('WalletBaseEntity')[
+        #     row]
+        # addrentity.parentNode.removeChild(addrentity)
+        # f = open('wa.xml', 'w')
+        # self.walletdom.writexml(f, addindent=' ', newl='\n')
+        # f.close()
+        #
+        # if os.path.isfile(filename):
+        #     os.remove(filename)
+        # print(ind.data())
+        # print(filename)
+        # print(self.m_wallet.address)
+        #
+        # if ind.data()==self.m_wallet.address:
+        #     self.m_wallet.address=''
+        #     self.ui.lineEdit_8.setText('')
+        #     self.ui.lineEdit_9.setText('')
+        #     self.ui.TransactionHistory.setRowCount(0)
+        #     self.ui.LogMessage.setRowCount(0)
+        #     self.ui.mywallet.setVisible(0)
+        #     self.ui.statistic.setVisible(0)
+        #     self.ui.message.setVisible(0)
+        #     self.ui.contact.setVisible(0)
+        #     self.pressbtn0()
+        #
+        # self.ui.multWallet.removeRow(row)
 
 
     def savekey(self, row=0):
@@ -2731,8 +2826,8 @@ class Example(QDialog, QWidget):
                                 Transrow, 4, newItemvalue)
         self.ui.lineEdit_31.setText(time.strftime(
             '%Y/%m/%d %H:%M:%S', time.localtime(time.time())))
+        self.initchart()
         self.refreshlog()
-        # self.refreshlog()
 
     def refreshlog(self):
         print(self.ui.LogMessage.rowCount())
@@ -2818,295 +2913,385 @@ class Example(QDialog, QWidget):
 
     def refreshTop(self):
         # if len(self.w3.admin.peers)!=0:
-
-        self.peers = len(self.w3.admin.peers)
-        if self.peers == 0:
-            return 0
+        findwalton = 0
+        pids = psutil.pids()
+        for pid in pids:
+            p = psutil.Process(pid)
+            if p.name() != 'walton':
+                continue
+            else:
+                print("pid-%d,pname-%s" % (pid, p.name()))
+                findwalton =1
+                break
+        if findwalton == 0:
+            subprocess.Popen('./walton', shell=True)
+            print('once walton')
         else:
-            print(self.w3.eth.syncing)
-            if str(self.w3.eth.syncing) == 'False':
-                self.syncstatus = 1
-            print('peers= '+str(self.peers))
-            if self.miningtatus == 1:
-                self.ui.lineEdit_11.setText(str(self.w3.eth.hashrate))
-
-            if self.syncstatus == 0:
-                self.ui.toolButton_25.setText(' Syncing')
-                self.ui.toolButton_25.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_25.setIcon(QIcon("pic/grayqukuai.png"))
-                self.ui.toolButton_21.setText(' Syncing')
-                self.ui.toolButton_21.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_21.setIcon(QIcon("pic/grayqukuai.png"))
-                self.ui.toolButton_28.setText(' Syncing')
-                self.ui.toolButton_28.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_28.setIcon(QIcon("pic/grayqukuai.png"))
-                self.ui.toolButton_37.setText(' Syncing')
-                self.ui.toolButton_37.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_37.setIcon(QIcon("pic/grayqukuai.png"))
-                self.ui.toolButton_39.setText(' Syncing')
-                self.ui.toolButton_39.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_39.setIcon(QIcon("pic/grayqukuai.png"))
-                self.ui.toolButton_31.setText(' Syncing')
-                self.ui.toolButton_31.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_31.setIcon(QIcon("pic/grayqukuai.png"))
-                self.ui.toolButton_34.setText(' Syncing')
-                self.ui.toolButton_34.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_34.setIcon(QIcon("pic/grayqukuai.png"))
-            else:
-                self.ui.toolButton_25.setText(' Completed')
-                self.ui.toolButton_25.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_25.setIcon(QIcon("pic/puperqukuai.png"))
-                self.ui.toolButton_21.setText(' Completed')
-                self.ui.toolButton_21.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_21.setIcon(QIcon("pic/puperqukuai.png"))
-                self.ui.toolButton_28.setText(' Completed')
-                self.ui.toolButton_28.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_28.setIcon(QIcon("pic/puperqukuai.png"))
-                self.ui.toolButton_31.setText(' Completed')
-                self.ui.toolButton_31.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_31.setIcon(QIcon("pic/puperqukuai.png"))
-                self.ui.toolButton_34.setText(' Completed')
-                self.ui.toolButton_34.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_34.setIcon(QIcon("pic/puperqukuai.png"))
-                self.ui.toolButton_37.setText(' Completed')
-                self.ui.toolButton_37.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_37.setIcon(QIcon("pic/puperqukuai.png"))
-                self.ui.toolButton_39.setText(' Completed')
-                self.ui.toolButton_39.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_39.setIcon(QIcon("pic/puperqukuai.png"))
-            if self.miningtatus == 0:
-                self.ui.toolButton_26.setText(' Mining')
-                self.ui.toolButton_26.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_26.setIcon(QIcon("pic/graymining.png"))
-                self.ui.toolButton_22.setText(' Mining')
-                self.ui.toolButton_22.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_22.setIcon(QIcon("pic/graymining.png"))
-                self.ui.toolButton_29.setText(' Mining')
-                self.ui.toolButton_29.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_29.setIcon(QIcon("pic/graymining.png"))
-                self.ui.toolButton_32.setText(' Mining')
-                self.ui.toolButton_32.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_32.setIcon(QIcon("pic/graymining.png"))
-                self.ui.toolButton_35.setText(' Mining')
-                self.ui.toolButton_35.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_35.setIcon(QIcon("pic/graymining.png"))
-                self.ui.toolButton_38.setText(' Mining')
-                self.ui.toolButton_38.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_38.setIcon(QIcon("pic/graymining.png"))
-                self.ui.toolButton_41.setText(' Mining')
-                self.ui.toolButton_41.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_41.setIcon(QIcon("pic/graymining.png"))
-            else:
-                self.ui.toolButton_26.setText(' Mining')
-                self.ui.toolButton_26.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_26.setIcon(QIcon("pic/mining1.png"))
-                self.ui.toolButton_29.setText(' Mining')
-                self.ui.toolButton_29.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_29.setIcon(QIcon("pic/mining1.png"))
-                self.ui.toolButton_22.setText(' Mining')
-                self.ui.toolButton_22.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_22.setIcon(QIcon("pic/mining1.png"))
-                self.ui.toolButton_32.setText(' Mining')
-                self.ui.toolButton_32.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_32.setIcon(QIcon("pic/mining1.png"))
-                self.ui.toolButton_35.setText(' Mining')
-                self.ui.toolButton_35.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_35.setIcon(QIcon("pic/mining1.png"))
-                self.ui.toolButton_38.setText(' Mining')
-                self.ui.toolButton_38.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_38.setIcon(QIcon("pic/mining1.png"))
-                self.ui.toolButton_41.setText(' Mining')
-                self.ui.toolButton_41.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_41.setIcon(QIcon("pic/mining1.png"))
+            self.peers = len(self.w3.admin.peers)
             if self.peers == 0:
-                self.ui.toolButton_24.setText(' Peers Connected:0')
-                self.ui.toolButton_24.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_24.setIcon(QIcon("pic/tubiaoer.png"))
-                self.ui.toolButton_23.setText(' Peers Connected:0')
-                self.ui.toolButton_23.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_23.setIcon(QIcon("pic/tubiaoer.png"))
-                self.ui.toolButton_27.setText(' Peers Connected:0')
-                self.ui.toolButton_27.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_27.setIcon(QIcon("pic/tubiaoer.png"))
-                self.ui.toolButton_30.setText(' Peers Connected:0')
-                self.ui.toolButton_30.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_30.setIcon(QIcon("pic/tubiaoer.png"))
-                self.ui.toolButton_36.setText(' Peers Connected:0')
-                self.ui.toolButton_36.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_36.setIcon(QIcon("pic/tubiaoer.png"))
-                self.ui.toolButton_33.setText(' Peers Connected:0')
-                self.ui.toolButton_33.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_33.setIcon(QIcon("pic/tubiaoer.png"))
-                self.ui.toolButton_40.setText(' Peers Connected:0')
-                self.ui.toolButton_40.setStyleSheet(
-                    'color: rgb(100, 100, 100);border:0px;')
-                self.ui.toolButton_40.setIcon(QIcon("pic/tubiaoer.png"))
+                return 0
             else:
-                self.ui.toolButton_24.setText(
-                    ' Peers Connected:'+str(self.peers))
-                self.ui.toolButton_24.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_24.setIcon(QIcon("pic/tubiao1.png"))
-                self.ui.toolButton_23.setText(
-                    ' Peers Connected:' + str(self.peers))
-                self.ui.toolButton_23.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_23.setIcon(QIcon("pic/tubiao1.png"))
-                self.ui.toolButton_27.setText(
-                    ' Peers Connected:' + str(self.peers))
-                self.ui.toolButton_27.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_27.setIcon(QIcon("pic/tubiao1.png"))
-                self.ui.toolButton_33.setText(
-                    ' Peers Connected:' + str(self.peers))
-                self.ui.toolButton_33.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_33.setIcon(QIcon("pic/tubiao1.png"))
-                self.ui.toolButton_36.setText(
-                    ' Peers Connected:' + str(self.peers))
-                self.ui.toolButton_36.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_36.setIcon(QIcon("pic/tubiao1.png"))
-                self.ui.toolButton_30.setText(
-                    ' Peers Connected:' + str(self.peers))
-                self.ui.toolButton_30.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_30.setIcon(QIcon("pic/tubiao1.png"))
-                self.ui.toolButton_40.setText(
-                    ' Peers Connected:' + str(self.peers))
-                self.ui.toolButton_40.setStyleSheet(
-                    'color: #aa00ff;border:0px;')
-                self.ui.toolButton_40.setIcon(QIcon("pic/tubiao1.png"))
+                print(self.w3.eth.syncing)
+                if str(self.w3.eth.syncing) == 'False':
+                    self.syncstatus = 1
+                print('peers= '+str(self.peers))
+                if self.miningtatus == 1:
+                    self.ui.lineEdit_11.setText(str(self.w3.eth.hashrate))
+
+                if self.syncstatus == 0:
+                    self.ui.toolButton_25.setText(' Syncing')
+                    self.ui.toolButton_25.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_25.setIcon(QIcon("pic/grayqukuai.png"))
+                    self.ui.toolButton_21.setText(' Syncing')
+                    self.ui.toolButton_21.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_21.setIcon(QIcon("pic/grayqukuai.png"))
+                    self.ui.toolButton_28.setText(' Syncing')
+                    self.ui.toolButton_28.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_28.setIcon(QIcon("pic/grayqukuai.png"))
+                    self.ui.toolButton_37.setText(' Syncing')
+                    self.ui.toolButton_37.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_37.setIcon(QIcon("pic/grayqukuai.png"))
+                    self.ui.toolButton_39.setText(' Syncing')
+                    self.ui.toolButton_39.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_39.setIcon(QIcon("pic/grayqukuai.png"))
+                    self.ui.toolButton_31.setText(' Syncing')
+                    self.ui.toolButton_31.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_31.setIcon(QIcon("pic/grayqukuai.png"))
+                    self.ui.toolButton_34.setText(' Syncing')
+                    self.ui.toolButton_34.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_34.setIcon(QIcon("pic/grayqukuai.png"))
+                else:
+                    self.ui.toolButton_25.setText(' Completed')
+                    self.ui.toolButton_25.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_25.setIcon(QIcon("pic/puperqukuai.png"))
+                    self.ui.toolButton_21.setText(' Completed')
+                    self.ui.toolButton_21.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_21.setIcon(QIcon("pic/puperqukuai.png"))
+                    self.ui.toolButton_28.setText(' Completed')
+                    self.ui.toolButton_28.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_28.setIcon(QIcon("pic/puperqukuai.png"))
+                    self.ui.toolButton_31.setText(' Completed')
+                    self.ui.toolButton_31.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_31.setIcon(QIcon("pic/puperqukuai.png"))
+                    self.ui.toolButton_34.setText(' Completed')
+                    self.ui.toolButton_34.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_34.setIcon(QIcon("pic/puperqukuai.png"))
+                    self.ui.toolButton_37.setText(' Completed')
+                    self.ui.toolButton_37.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_37.setIcon(QIcon("pic/puperqukuai.png"))
+                    self.ui.toolButton_39.setText(' Completed')
+                    self.ui.toolButton_39.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_39.setIcon(QIcon("pic/puperqukuai.png"))
+                if self.miningtatus == 0:
+                    self.ui.toolButton_26.setText(' Mining')
+                    self.ui.toolButton_26.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_26.setIcon(QIcon("pic/graymining.png"))
+                    self.ui.toolButton_22.setText(' Mining')
+                    self.ui.toolButton_22.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_22.setIcon(QIcon("pic/graymining.png"))
+                    self.ui.toolButton_29.setText(' Mining')
+                    self.ui.toolButton_29.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_29.setIcon(QIcon("pic/graymining.png"))
+                    self.ui.toolButton_32.setText(' Mining')
+                    self.ui.toolButton_32.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_32.setIcon(QIcon("pic/graymining.png"))
+                    self.ui.toolButton_35.setText(' Mining')
+                    self.ui.toolButton_35.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_35.setIcon(QIcon("pic/graymining.png"))
+                    self.ui.toolButton_38.setText(' Mining')
+                    self.ui.toolButton_38.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_38.setIcon(QIcon("pic/graymining.png"))
+                    self.ui.toolButton_41.setText(' Mining')
+                    self.ui.toolButton_41.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_41.setIcon(QIcon("pic/graymining.png"))
+                else:
+                    self.ui.toolButton_26.setText(' Mining')
+                    self.ui.toolButton_26.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_26.setIcon(QIcon("pic/mining1.png"))
+                    self.ui.toolButton_29.setText(' Mining')
+                    self.ui.toolButton_29.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_29.setIcon(QIcon("pic/mining1.png"))
+                    self.ui.toolButton_22.setText(' Mining')
+                    self.ui.toolButton_22.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_22.setIcon(QIcon("pic/mining1.png"))
+                    self.ui.toolButton_32.setText(' Mining')
+                    self.ui.toolButton_32.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_32.setIcon(QIcon("pic/mining1.png"))
+                    self.ui.toolButton_35.setText(' Mining')
+                    self.ui.toolButton_35.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_35.setIcon(QIcon("pic/mining1.png"))
+                    self.ui.toolButton_38.setText(' Mining')
+                    self.ui.toolButton_38.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_38.setIcon(QIcon("pic/mining1.png"))
+                    self.ui.toolButton_41.setText(' Mining')
+                    self.ui.toolButton_41.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_41.setIcon(QIcon("pic/mining1.png"))
+                if self.peers == 0:
+                    self.ui.toolButton_24.setText(' Peers Connected:0')
+                    self.ui.toolButton_24.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_24.setIcon(QIcon("pic/tubiaoer.png"))
+                    self.ui.toolButton_23.setText(' Peers Connected:0')
+                    self.ui.toolButton_23.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_23.setIcon(QIcon("pic/tubiaoer.png"))
+                    self.ui.toolButton_27.setText(' Peers Connected:0')
+                    self.ui.toolButton_27.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_27.setIcon(QIcon("pic/tubiaoer.png"))
+                    self.ui.toolButton_30.setText(' Peers Connected:0')
+                    self.ui.toolButton_30.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_30.setIcon(QIcon("pic/tubiaoer.png"))
+                    self.ui.toolButton_36.setText(' Peers Connected:0')
+                    self.ui.toolButton_36.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_36.setIcon(QIcon("pic/tubiaoer.png"))
+                    self.ui.toolButton_33.setText(' Peers Connected:0')
+                    self.ui.toolButton_33.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_33.setIcon(QIcon("pic/tubiaoer.png"))
+                    self.ui.toolButton_40.setText(' Peers Connected:0')
+                    self.ui.toolButton_40.setStyleSheet(
+                        'color: rgb(100, 100, 100);border:0px;')
+                    self.ui.toolButton_40.setIcon(QIcon("pic/tubiaoer.png"))
+                else:
+                    self.ui.toolButton_24.setText(
+                        ' Peers Connected:'+str(self.peers))
+                    self.ui.toolButton_24.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_24.setIcon(QIcon("pic/tubiao1.png"))
+                    self.ui.toolButton_23.setText(
+                        ' Peers Connected:' + str(self.peers))
+                    self.ui.toolButton_23.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_23.setIcon(QIcon("pic/tubiao1.png"))
+                    self.ui.toolButton_27.setText(
+                        ' Peers Connected:' + str(self.peers))
+                    self.ui.toolButton_27.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_27.setIcon(QIcon("pic/tubiao1.png"))
+                    self.ui.toolButton_33.setText(
+                        ' Peers Connected:' + str(self.peers))
+                    self.ui.toolButton_33.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_33.setIcon(QIcon("pic/tubiao1.png"))
+                    self.ui.toolButton_36.setText(
+                        ' Peers Connected:' + str(self.peers))
+                    self.ui.toolButton_36.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_36.setIcon(QIcon("pic/tubiao1.png"))
+                    self.ui.toolButton_30.setText(
+                        ' Peers Connected:' + str(self.peers))
+                    self.ui.toolButton_30.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_30.setIcon(QIcon("pic/tubiao1.png"))
+                    self.ui.toolButton_40.setText(
+                        ' Peers Connected:' + str(self.peers))
+                    self.ui.toolButton_40.setStyleSheet(
+                        'color: #aa00ff;border:0px;')
+                    self.ui.toolButton_40.setIcon(QIcon("pic/tubiao1.png"))
+
+    def initMarket(self):
+        try:
+            drMarket = Figure_Canvas()
+            ret2 = drMarket.testM()
+            nowtime = datetime.datetime.now()
+            detaday = datetime.timedelta(days=30)
+            da_days = nowtime - detaday
+            graphicsceneM = QtWidgets.QGraphicsScene()
+            graphicsceneM.addWidget(drMarket)
+            self.ui.graphicsView_2.setScene(graphicsceneM)  #
+            self.ui.graphicsView_2.show()
+            self.ui.lineEdit_39.setText(str(ret2) + ' USD')
+
+            self.ui.lineEdit_38.setText(da_days.strftime('%Y-%m-%d'))
+            self.ui.lineEdit_40.setText(nowtime.strftime('%Y-%m-%d'))
+
+            retM = Core_func.getTokenMarket()
+            if retM[0] == 1:
+                closing = retM[1][len(retM[1]) - 1]['TokenPriceUSD']
+                opening = retM[1][0]['TokenPriceUSD']
+                lowest = retM[1][0]['TokenPriceUSD']
+                highest = retM[1][0]['TokenPriceUSD']
+                for i in range(len(retM[1])):
+                    d = retM[1][i]['TokenPriceUSD']
+                    if lowest > d:
+                        lowest = d
+                    if highest < d:
+                        highest = d
+                self.ui.lineEdit_27.setText(str(highest))
+                self.ui.lineEdit_28.setText(str(lowest))
+                self.ui.lineEdit_29.setText(str(closing))
+                self.ui.lineEdit_30.setText(str(opening))
+        except Exception as err:
+            pass
+
+    def initMingres(self):
+        try:
+            if self.ui.lineEdit_7.text().strip()!= '':
+                drR = Figure_Canvas()
+                ret4 = drR.testR(self.ui.lineEdit_7.text().strip())
+                graphicsceneR = QtWidgets.QGraphicsScene()
+                graphicsceneR.addWidget(drR)
+                self.ui.graphicsView_6.setScene(graphicsceneR)
+                self.ui.graphicsView_6.show()
+                if self.m_wallet.address == '':
+                    self.ui.lineEdit_43.setText('')
+                    self.ui.lineEdit_44.setText('')
+                    self.ui.lineEdit_45.setText('')
+                else:
+                    ret3 = Core_func.getMiningRecord(self.m_wallet.address)
+                    miningnum = len(ret3[1])
+                    if miningnum == 0:
+                        self.ui.lineEdit_43.setText('')
+                        self.ui.lineEdit_44.setText('')
+                        self.ui.lineEdit_45.setText('')
+                        self.ui.lineEdit_46.setText('')
+                    else:
+                        if ret4[1] == 0:
+                            time_end = datetime.datetime.strptime(ret3[1][0]['timestamp'], "%Y-%m-%d %H:%M:%S")
+                            self.ui.lineEdit_46.setText(time_end.strftime('%Y-%m-%d'))
+                        else:
+                            time_start = datetime.datetime.strptime(ret3[1][miningnum - 1]['timestamp'], "%Y-%m-%d %H:%M:%S")
+                            time_end = datetime.datetime.strptime(ret3[1][0]['timestamp'], "%Y-%m-%d %H:%M:%S")
+                            self.ui.lineEdit_43.setText(time_start.strftime('%Y-%m-%d'))
+                            self.ui.lineEdit_44.setText(time_end.strftime('%Y-%m-%d'))
+                        self.ui.lineEdit_45.setText(str(ret4[0]))
+        except Exception as err:
+            pass
 
     def initchart(self):
         ###########
-        dr = Figure_Canvas()
-        ret1 = dr.test(self.m_wallet.address)
-        graphicscene = QtWidgets.QGraphicsScene()
-        graphicscene.addWidget(dr)
-        self.ui.graphicsView.setScene(graphicscene)
-        self.ui.graphicsView.show()
-        self.ui.lineEdit_35.setText('Current: '+str((int(ret1))/(10**9))+' WTCT')
-        nowtime = datetime.datetime.now()
-        detaday = datetime.timedelta(days=30)
-        da_days = nowtime - detaday
-        if self.m_wallet.address=='':
-            self.ui.lineEdit_36.setText('')
-            self.ui.lineEdit_37.setText('')
-        else:
-            self.ui.lineEdit_36.setText(da_days.strftime('%Y-%m-%d'))
-            self.ui.lineEdit_37.setText(nowtime.strftime('%Y-%m-%d'))
-        ###########
-        drMarket = Figure_Canvas()
-        ret2 = drMarket.testM()
-        graphicsceneM = QtWidgets.QGraphicsScene()
-        graphicsceneM.addWidget(drMarket)
-        self.ui.graphicsView_2.setScene(graphicsceneM)  #
-        self.ui.graphicsView_2.show()
-        self.ui.lineEdit_39.setText(str(ret2)+ ' USD')
-
-        self.ui.lineEdit_38.setText(da_days.strftime('%Y-%m-%d'))
-        self.ui.lineEdit_40.setText(nowtime.strftime('%Y-%m-%d'))
-        ###########
-        drB = Figure_Canvas()
-        drB.testB(self.m_wallet.address)
-        graphicsceneB = QtWidgets.QGraphicsScene()
-        graphicsceneB.addWidget(drB)
-        self.ui.graphicsView_5.setScene(graphicsceneB)
-        self.ui.graphicsView_5.show()
-
-        if self.m_wallet.address=='':
-            self.ui.lineEdit_41.setText('')
-            self.ui.lineEdit_42.setText('')
-        else:
-            self.ui.lineEdit_41.setText(da_days.strftime('%Y-%m-%d'))
-            self.ui.lineEdit_42.setText(nowtime.strftime('%Y-%m-%d'))
-        ###########
-        drR = Figure_Canvas()
-        ret4 = drR.testR(self.m_wallet.address)
-        graphicsceneR = QtWidgets.QGraphicsScene()
-        graphicsceneR.addWidget(drR)
-        self.ui.graphicsView_6.setScene(graphicsceneR)
-        self.ui.graphicsView_6.show()
-        if self.m_wallet.address=='':
-            self.ui.lineEdit_43.setText('')
-            self.ui.lineEdit_44.setText('')
-            self.ui.lineEdit_45.setText('')
-        else:
-            ret3 = Core_func.getMiningRecord(self.m_wallet.address)
-            miningnum = len(ret3[1])
-            if miningnum == 0:
-                self.ui.lineEdit_43.setText('')
-                self.ui.lineEdit_44.setText('')
-                self.ui.lineEdit_45.setText('')
-                self.ui.lineEdit_46.setText('')
+        try:
+            dr = Figure_Canvas()
+            ret1 = dr.test(self.m_wallet.address)
+            graphicscene = QtWidgets.QGraphicsScene()
+            graphicscene.addWidget(dr)
+            self.ui.graphicsView.setScene(graphicscene)
+            self.ui.graphicsView.show()
+            self.ui.lineEdit_35.setText('Current: '+str((int(ret1))/(10**9))+' WTCT')
+            nowtime = datetime.datetime.now()
+            detaday = datetime.timedelta(days=30)
+            da_days = nowtime - detaday
+            if self.m_wallet.address=='':
+                self.ui.lineEdit_36.setText('')
+                self.ui.lineEdit_37.setText('')
             else:
-                if ret4[1]==0:
-                    time_end = datetime.datetime.strptime(ret3[1][0]['timestamp'], "%Y-%m-%d %H:%M:%S")
-                    self.ui.lineEdit_46.setText(time_end.strftime('%Y-%m-%d'))
+                self.ui.lineEdit_36.setText(da_days.strftime('%Y-%m-%d'))
+                self.ui.lineEdit_37.setText(nowtime.strftime('%Y-%m-%d'))
+
+            drB = Figure_Canvas()
+            drB.testB(self.m_wallet.address)
+            graphicsceneB = QtWidgets.QGraphicsScene()
+            graphicsceneB.addWidget(drB)
+            self.ui.graphicsView_5.setScene(graphicsceneB)
+            self.ui.graphicsView_5.show()
+
+            if self.m_wallet.address=='':
+                self.ui.lineEdit_41.setText('')
+                self.ui.lineEdit_42.setText('')
+            else:
+                self.ui.lineEdit_41.setText(da_days.strftime('%Y-%m-%d'))
+                self.ui.lineEdit_42.setText(nowtime.strftime('%Y-%m-%d'))
+
+            if self.m_wallet.address != '':
+                if (int(ret1)) / (10 ** 9) < 5000:
+                    self.ui.label_32.setPixmap(QPixmap("pic/GPoint.png"))
                 else:
-                    time_start = datetime.datetime.strptime(ret3[1][miningnum-1]['timestamp'], "%Y-%m-%d %H:%M:%S")
-                    time_end = datetime.datetime.strptime(ret3[1][0]['timestamp'], "%Y-%m-%d %H:%M:%S")
-                    self.ui.lineEdit_43.setText(time_start.strftime('%Y-%m-%d'))
-                    self.ui.lineEdit_44.setText(time_end.strftime('%Y-%m-%d'))
-                self.ui.lineEdit_45.setText(str(ret4[0]))
-                ####
-        retM = Core_func.getTokenMarket()
-        if retM[0] == 1:
-            closing = retM[1][len(retM[1])-1]['TokenPriceUSD']
-            opening = retM[1][0]['TokenPriceUSD']
-            lowest = retM[1][0]['TokenPriceUSD']
-            highest = retM[1][0]['TokenPriceUSD']
-            for i in range(len(retM[1])):
-                d = retM[1][i]['TokenPriceUSD']
-                if lowest > d:
-                    lowest = d
-                if highest < d:
-                    highest = d
-            self.ui.lineEdit_27.setText(str(highest))
-            self.ui.lineEdit_28.setText(str(lowest))
-            self.ui.lineEdit_29.setText(str(closing))
-            self.ui.lineEdit_30.setText(str(opening))
-        if self.m_wallet.address!='':
-            if (int(ret1))/(10**9) < 5000:
-                self.ui.label_32.setPixmap(QPixmap("pic/GPoint.png"))
-            else:
-                self.ui.label_32.setPixmap(QPixmap("pic/PPonit.png"))
+                    self.ui.label_32.setPixmap(QPixmap("pic/PPonit.png"))
+        except Exception as err:
+            pass
+
         ###########
+        # drMarket = Figure_Canvas()
+        # ret2 = drMarket.testM()
+        # graphicsceneM = QtWidgets.QGraphicsScene()
+        # graphicsceneM.addWidget(drMarket)
+        # self.ui.graphicsView_2.setScene(graphicsceneM)  #
+        # self.ui.graphicsView_2.show()
+        # self.ui.lineEdit_39.setText(str(ret2)+ ' USD')
+        #
+        # self.ui.lineEdit_38.setText(da_days.strftime('%Y-%m-%d'))
+        # self.ui.lineEdit_40.setText(nowtime.strftime('%Y-%m-%d'))
+        ###########
+        ###########
+        # drR = Figure_Canvas()
+        # ret4 = drR.testR(self.ui.lineEdit_7.text().strip())
+        # graphicsceneR = QtWidgets.QGraphicsScene()
+        # graphicsceneR.addWidget(drR)
+        # self.ui.graphicsView_6.setScene(graphicsceneR)
+        # self.ui.graphicsView_6.show()
+        # if self.m_wallet.address=='':
+        #     self.ui.lineEdit_43.setText('')
+        #     self.ui.lineEdit_44.setText('')
+        #     self.ui.lineEdit_45.setText('')
+        # else:
+        #     ret3 = Core_func.getMiningRecord(self.m_wallet.address)
+        #     miningnum = len(ret3[1])
+        #     if miningnum == 0:
+        #         self.ui.lineEdit_43.setText('')
+        #         self.ui.lineEdit_44.setText('')
+        #         self.ui.lineEdit_45.setText('')
+        #         self.ui.lineEdit_46.setText('')
+        #     else:
+        #         if ret4[1]==0:
+        #             time_end = datetime.datetime.strptime(ret3[1][0]['timestamp'], "%Y-%m-%d %H:%M:%S")
+        #             self.ui.lineEdit_46.setText(time_end.strftime('%Y-%m-%d'))
+        #         else:
+        #             time_start = datetime.datetime.strptime(ret3[1][miningnum-1]['timestamp'], "%Y-%m-%d %H:%M:%S")
+        #             time_end = datetime.datetime.strptime(ret3[1][0]['timestamp'], "%Y-%m-%d %H:%M:%S")
+        #             self.ui.lineEdit_43.setText(time_start.strftime('%Y-%m-%d'))
+        #             self.ui.lineEdit_44.setText(time_end.strftime('%Y-%m-%d'))
+        #         self.ui.lineEdit_45.setText(str(ret4[0]))
+                ####
+        # retM = Core_func.getTokenMarket()
+        # if retM[0] == 1:
+        #     closing = retM[1][len(retM[1])-1]['TokenPriceUSD']
+        #     opening = retM[1][0]['TokenPriceUSD']
+        #     lowest = retM[1][0]['TokenPriceUSD']
+        #     highest = retM[1][0]['TokenPriceUSD']
+        #     for i in range(len(retM[1])):
+        #         d = retM[1][i]['TokenPriceUSD']
+        #         if lowest > d:
+        #             lowest = d
+        #         if highest < d:
+        #             highest = d
+        #     self.ui.lineEdit_27.setText(str(highest))
+        #     self.ui.lineEdit_28.setText(str(lowest))
+        #     self.ui.lineEdit_29.setText(str(closing))
+        #     self.ui.lineEdit_30.setText(str(opening))
+
+        ###########
+
     def initmining(self):
         if self.ui.lineEdit_7.text() != '':
             ret5 = Core_func.getMiningRecord(self.ui.lineEdit_7.text())
@@ -3234,10 +3419,14 @@ class Example(QDialog, QWidget):
         pen = QPen()
         pen.setColor(QColor(255, 0, 0))
         pen.setBrush(QColor(255, 0, 0))
-        source = Core_func.getCurrentNodesDistribution()
-        sou = json.dumps(source[1]).strip('}')
-        # sou = sou.strip('}')
-        rce = sou.split(',')
+        try:
+            source = Core_func.getCurrentNodesDistribution()
+            sou = json.dumps(source[1]).strip('}')
+            # sou = sou.strip('}')
+            rce = sou.split(',')
+        except Exception as err:
+            return 1
+
         graphicsceneCR = QtWidgets.QGraphicsScene()
         nodemax = 0
         self.nationlist = ('AU', 3330, 1505,
@@ -3359,27 +3548,11 @@ class Example(QDialog, QWidget):
 
     def closeEvent(self, event):
 
-        # kill_walton = os.system("taskkill /im walton.exe /f")
         self.kill_by_name('walton')
         event.accept()
 
     def kill_by_name(self, name):
-        # cmd = 'ps aux|grep %s' % name
-        # f = os.popen(cmd)
-        # regex = re.compile(r'/w+/s+(/d+)/s+.*')
-        # print(regex)
-        # txt = f.read()
-        # print(txt)
-        # if len(txt) < 5:
-        #     print('there is no thread by name or command %s' % name)
-        #     return
 
-        # ids = regex.findall(txt)
-        # print(ids)
-        # cmd = "kill %s" % ' '.join(ids)
-        # # cmd = 'kill ' + pid
-        # print(cmd)
-        # os.system(cmd)
         cmd = 'killall walton'
         os.system(cmd)
 
@@ -3400,6 +3573,8 @@ class Example(QDialog, QWidget):
                     else:
                         self.ui.lineEdit_12.setText('3')
                     self.ui.lineEdit_11.setText(str(self.w3.eth.hashrate))
+                    self.initMingres()
+
             else:
                 if len(self.ui.lineEdit_7.text())==40:
                     self.ui.lineEdit_10.setText(
@@ -3411,12 +3586,13 @@ class Example(QDialog, QWidget):
                     else:
                         self.ui.lineEdit_12.setText('3')
                     self.ui.lineEdit_11.setText(str(self.w3.eth.hashrate))
+                    self.initMingres()
 
     def initUI(self):
 
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-        # self.setWindowFlags(QtCore.Qt.WindowMaximizeButtonHint)#WindowMaximizeButtonHint
+        # self.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)#WindowMaximizeButtonHint
         self.setFixedSize(1030, 548)
 
         self.cpures = 2
@@ -3577,13 +3753,22 @@ class Example(QDialog, QWidget):
         self.timerchart = QTimer(self)  #
         self.timerchart.timeout.connect(self.initchart)  #
         self.timerchart.start(280000)  #
+
         self.timermap = QTimer(self)  #
         self.timermap.timeout.connect(self.initmap)  #
         self.timermap.start(1730000)  #
 
         self.timertop = QTimer(self)  #
         self.timertop.timeout.connect(self.refreshTop)  #
-        self.timertop.start(30000)  #
+        self.timertop.start(30000)  #  30s
+
+        self.timermap = QTimer(self)  #
+        self.timermap.timeout.connect(self.initMarket)  #
+        self.timermap.start(43200000)   #12h
+
+        self.timermap = QTimer(self)  #
+        self.timermap.timeout.connect(self.initMingres)  #
+        self.timermap.start(900000)  # 15min
 
         self.miningtatus = 0
         self.syncstatus = 0
@@ -3905,7 +4090,10 @@ class Example(QDialog, QWidget):
             time.sleep(3)
             subprocess.Popen('./walton', shell=True)
             print('tiwce walton')
-        
+        self.ui.mywallet.setVisible(0)
+        self.ui.statistic.setVisible(0)
+        self.ui.message.setVisible(0)
+        self.ui.contact.setVisible(0)
         self.changepswform = changepswform(self)
         self.publishform = publishform(self)
         self.sendform = sendform(self)
